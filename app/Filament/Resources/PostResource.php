@@ -22,26 +22,26 @@ class PostResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\RichEditor::make('body')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->required()
-                    ->options([
-                        'draft' => 'Draft',
-                        'published' => 'Publish',
-                    ]),
-                Forms\Components\FileUpload::make('thumbnail')
-                    ->image()
-                    ->directory('thumbnails'),
-            ]);
+        ->schema([
+            Forms\Components\TextInput::make('title')
+                ->required()
+                ->maxLength(255),
+            Forms\Components\RichEditor::make('body')
+                ->required()
+                ->columnSpanFull(),
+            Forms\Components\Select::make('category_id')
+                ->relationship('category', 'name')
+                ->required(),
+            Forms\Components\Select::make('status')
+                ->required()
+                ->options([
+                    'draft' => 'Draft',
+                    'published' => 'Publish',
+                ]),
+            Forms\Components\FileUpload::make('thumbnail')
+                ->image()
+                ->directory('thumbnails'),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -50,17 +50,13 @@ class PostResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('author.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category.id')
+                Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('thumbnail')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -78,7 +74,9 @@ class PostResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -99,7 +97,8 @@ class PostResource extends Resource
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
+            // 'view' => Pages\ViewPost::route('/{record}'),
+            // 'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }
 }
