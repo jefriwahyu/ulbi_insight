@@ -3,20 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
+    protected static ?string $navigationGroup = 'Menu';
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
@@ -34,8 +32,10 @@ class UserResource extends Resource
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name'),
                 Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->maxLength(255),
+                ->password()
+                ->maxLength(255)
+                ->dehydrated(fn ($state) => !empty($state)) // Only save if not empty
+                ->default(fn ($record) => $record ? $record->password : ''),
             ]);
     }
 

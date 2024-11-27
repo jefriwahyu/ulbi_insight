@@ -3,20 +3,24 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
+    protected static ?string $navigationGroup = 'Menu';
+    
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -47,6 +51,14 @@ class PostResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        
+        ->modifyQueryUsing(function (Builder $query) {
+            if (Auth::user()->hasRole('super_admin')) {
+                return $query; // Admin melihat semua data
+            }
+        
+            return $query->where('author_id', Auth::id()); // Author hanya melihat postingannya sendiri
+        })
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
@@ -72,7 +84,7 @@ class PostResource extends Resource
             ])
             ->filters([
                 //
-            ])
+                    ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -82,7 +94,8 @@ class PostResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ;    
     }
 
     public static function getRelations(): array
