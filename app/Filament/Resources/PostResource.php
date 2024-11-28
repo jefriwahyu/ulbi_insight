@@ -8,10 +8,10 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-
 
 class PostResource extends Resource
 {
@@ -41,8 +41,7 @@ class PostResource extends Resource
                     'published' => 'Publish',
                 ]),
             Forms\Components\FileUpload::make('thumbnail')
-                ->image()
-                ->directory('thumbnails'),
+                ->image(),
         ]);
     }
 
@@ -89,9 +88,7 @@ class PostResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ])
             ;    
     }

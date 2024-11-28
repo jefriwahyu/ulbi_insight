@@ -44,7 +44,13 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-
+        ->modifyQueryUsing(function (Builder $query) {
+            if (Auth::user()->hasRole('super_admin')) {
+                return $query; // Admin melihat semua data
+            }
+        
+            return $query->where('id', Auth::id()); // Author hanya melihat postingannya sendiri
+        })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
