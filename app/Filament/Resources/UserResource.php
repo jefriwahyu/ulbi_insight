@@ -32,7 +32,8 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
-                    ->relationship('roles', 'name'),
+                    ->relationship('roles', 'name')
+                    ->disabled(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
                 Forms\Components\TextInput::make('password')
                 ->password()
                 ->maxLength(255)
@@ -74,9 +75,7 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 

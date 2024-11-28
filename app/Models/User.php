@@ -22,6 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'photo',
         'email',
         'password',
     ];
@@ -47,11 +48,6 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function getIsAdminAttribute(): bool
-    {
-        return $this->role === 'admin'; // Misalnya kolom role bernilai 'admin'
     }
 
 }

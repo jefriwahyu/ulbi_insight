@@ -8,12 +8,12 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class PostResource extends Resource
+class PostResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Post::class;
 
@@ -39,7 +39,8 @@ class PostResource extends Resource
                 ->options([
                     'draft' => 'Draft',
                     'published' => 'Publish',
-                ]),
+                ])
+                ->disabled(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
             Forms\Components\FileUpload::make('thumbnail')
                 ->image(),
         ]);
@@ -50,7 +51,7 @@ class PostResource extends Resource
         return $table
         
         ->modifyQueryUsing(function (Builder $query) {
-            if (Auth::user()->hasRole('super_admin')) {
+            if (Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('validator') ) {
                 return $query; // Admin melihat semua data
             }
         
@@ -58,6 +59,7 @@ class PostResource extends Resource
         })
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->limit(20)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('author.name')
                     ->numeric()
@@ -67,15 +69,15 @@ class PostResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -83,9 +85,9 @@ class PostResource extends Resource
                 //
                     ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                // Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -107,6 +109,19 @@ class PostResource extends Resource
             'create' => Pages\CreatePost::route('/create'),
             // 'view' => Pages\ViewPost::route('/{record}'),
             // 'edit' => Pages\EditPost::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'update_status'
         ];
     }
 }
