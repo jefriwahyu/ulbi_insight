@@ -31,6 +31,12 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('photo')
+                    ->disk('public')
+                    ->directory('user-photos')
+                    ->label('Photo')
+                    ->image()
+                    ->maxSize(2048),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
                     ->disabled(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
@@ -57,6 +63,8 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('photo')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->formatStateUsing(fn($state): string => str()->headline($state)),
                 Tables\Columns\TextColumn::make('created_at')
