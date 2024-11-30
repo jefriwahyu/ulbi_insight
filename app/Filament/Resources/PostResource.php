@@ -34,14 +34,16 @@ class PostResource extends Resource implements HasShieldPermissions
             Forms\Components\Select::make('category_id')
                 ->relationship('category', 'name')
                 ->required(),
-            Forms\Components\Select::make('status')
-                ->required()
+            Forms\Components\ToggleButtons::make('status')
                 ->options([
                     'draft' => 'Draft',
                     'published' => 'Publish',
                 ])
-                ->disabled(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
+                ->disabled(fn ($state, $record) => Auth::user()->hasRole('author')),
             Forms\Components\FileUpload::make('thumbnail')
+                ->maxSize(2048)
+                ->disk('public')
+                ->directory('thumbnails')
                 ->image(),
         ]);
     }
