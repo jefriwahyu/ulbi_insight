@@ -12,6 +12,7 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostResource extends Resource implements HasShieldPermissions
 {
@@ -39,12 +40,25 @@ class PostResource extends Resource implements HasShieldPermissions
                     'draft' => 'Draft',
                     'published' => 'Publish',
                 ])
+                ->default('draft')
                 ->disabled(fn ($state, $record) => Auth::user()->hasRole('author')),
             Forms\Components\FileUpload::make('thumbnail')
                 ->maxSize(2048)
                 ->disk('public')
                 ->directory('thumbnails')
-                ->image(),
+                ->image()
+                ->afterStateUpdated(function (?string $state, ?string $old, callable $set) {
+                    // Cek apakah ada nilai lama untuk thumbnail
+                    if ($old && $old !== $state) {
+                        // Jika thumbnail lama ada dan berbeda dengan nilai baru, hapus gambar lama
+                        $oldThumbnailPath = public_path('storage/'.$old);
+                        if (file_exists($oldThumbnailPath)) {
+                            unlink($oldThumbnailPath); // Hapus gambar lama
+                        }
+                    }
+
+                    // Jika gambar baru diupload, Filament secara otomatis akan menyimpan gambar tersebut
+                }),
         ]);
     }
 
@@ -89,12 +103,34 @@ class PostResource extends Resource implements HasShieldPermissions
             ->actions([
                 // Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->after(function ($record) {
+                        $thumbpath = public_path('storage/'.$record->thumbnail);
+                        $richpath = public_path('storage/'.$record->thumbnail);
+                        if (file_exists($thumbpath) || file_exists($richpath)) {
+                            unlink($thumbpath);
+                        }
+
+                        $record->delete();
+                    }),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ])
-            ;    
+                Tables\Actions\DeleteBulkAction::make()
+                    ->after(function ($records) {
+                        foreach ($records as $record) {
+                            // Ambil path gambar yang terhubung
+                            $thumbpath = public_path('storage/'.$record->thumbnail);
+
+                            // Hapus gambar jika ada
+                            if (file_exists($thumbpath)) {
+                                unlink($thumbpath); // Hapus gambar
+                            }
+
+                            // Hapus record
+                            $record->delete();
+                        }
+                    }),
+            ]);    
     }
 
     public static function getRelations(): array
