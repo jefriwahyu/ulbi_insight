@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CategoryResource extends Resource
 {
@@ -29,12 +26,17 @@ class CategoryResource extends Resource
                     ->required()
                     ->label('Nama Kategori')
                     ->maxLength(255),
-                Forms\Components\Select::make('status')
+                Forms\Components\ToggleButtons::make('status')
                     ->required()
                     ->options([
                         'active' => 'Active',
                         'nonactive' => 'Non Active',
                     ])
+                    ->colors([
+                        'active' => 'success',
+                        'nonactive' => 'danger',
+                    ])
+                    ->inline()
                     ->default('active'),
                 Forms\Components\FileUpload::make('icon')
                     ->image()
@@ -50,7 +52,12 @@ class CategoryResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'active' => 'success',
+                        'nonactive' => 'danger',
+                }),
                 Tables\Columns\TextColumn::make('icon')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -67,6 +74,7 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -85,7 +93,7 @@ class CategoryResource extends Resource
         return [
             'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            // 'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

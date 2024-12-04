@@ -20,6 +20,15 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    public static function getNavigationBadge(): ?string
+    {
+        // Menghitung jumlah user
+        $userCount = User::count();
+
+        // Mengembalikan jumlah user sebagai string
+        return $userCount ? (string) $userCount : null;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -42,7 +51,7 @@ class UserResource extends Resource
                     ->disabled(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
                 Forms\Components\TextInput::make('password')
                 ->password()
-                ->maxLength(255)
+                ->maxLength(8)
                 ->dehydrated(fn ($state) => !empty($state)) // Only save if not empty
                 ->default(fn ($record) => $record ? $record->password : ''),
             ]);
@@ -66,7 +75,13 @@ class UserResource extends Resource
                 Tables\Columns\ImageColumn::make('photo')
                     ->circular(),
                 Tables\Columns\TextColumn::make('roles.name')
-                    ->formatStateUsing(fn($state): string => str()->headline($state)),
+                    ->formatStateUsing(fn($state): string => str()->headline($state))
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'super_admin' => 'warning',
+                        'validator' => 'danger',
+                        'author' => 'gray',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

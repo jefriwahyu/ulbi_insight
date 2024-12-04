@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\BulkActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,22 @@ class PostResource extends Resource implements HasShieldPermissions
     protected static ?string $navigationGroup = 'Menu';
     
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getNavigationBadge(): ?string
+    {
+        // Ambil user yang sedang login
+        $user = Auth::user();
+
+        // Hitung jumlah Post yang dimiliki oleh user yang sedang login
+        if ($user->hasRole('author')) {
+            $postCount = Post::where('author_id', $user->id)->count();
+        } else {
+            $postCount = Post::count(); 
+        }
+
+        // Kembalikan jumlah Post sebagai string untuk badge
+        return (string) $postCount;
+    }
 
     public static function form(Form $form): Form
     {
@@ -38,6 +55,17 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->options([
                     'draft' => 'Draft',
                     'published' => 'Publish',
+                    'rejected' => 'Reject',
+                ])
+                ->colors([
+                    'draft' => 'gray',
+                    'published' => 'success',
+                    'rejected' => 'danger',
+                ])
+                ->icons([
+                    'draft' => 'heroicon-o-pencil',
+                    'published' => 'heroicon-o-check-circle',
+                    'rejected' => 'heroicon-o-x-circle',
                 ])
                 ->disabled(fn ($state, $record) => Auth::user()->hasRole('author')),
             Forms\Components\FileUpload::make('thumbnail')
@@ -53,10 +81,10 @@ class PostResource extends Resource implements HasShieldPermissions
         return $table
         
         ->modifyQueryUsing(function (Builder $query) {
-            if (Auth::user()->hasRole('super_admin') || Auth::user()->hasRole('validator') ) {
-                return $query; // Admin melihat semua data
+            if (!Auth::user()->hasRole('author')) {
+                return $query;
             }
-        
+
             return $query->where('author_id', Auth::id()); // Author hanya melihat postingannya sendiri
         })
             ->columns([
@@ -69,7 +97,14 @@ class PostResource extends Resource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('status')
+                    ->formatStateUsing(fn($state): string => str()->headline($state))
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'draft' => 'gray',
+                        'published' => 'success',
+                        'rejected' => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->since()
                     ->sortable()
@@ -87,12 +122,13 @@ class PostResource extends Resource implements HasShieldPermissions
                 //
                     ])
             ->actions([
-                // Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ])
             ])
             ;    
     }
@@ -123,7 +159,6 @@ class PostResource extends Resource implements HasShieldPermissions
             'update',
             'delete',
             'delete_any',
-            'update_status'
         ];
     }
 }
