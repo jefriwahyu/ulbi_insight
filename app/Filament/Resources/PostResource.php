@@ -73,8 +73,7 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->maxSize(2048)
                 ->disk('public')
                 ->directory('thumbnails')
-                ->image()
-                ->imageEditor(),
+                ->image(),
         ]);
     }
 
@@ -93,6 +92,7 @@ class PostResource extends Resource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('title')
                     ->limit(20)
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('author.name')
                     ->numeric()
                     ->sortable(),

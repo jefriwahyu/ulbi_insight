@@ -53,9 +53,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeOwnedBy(Builder $query, $userId)
-    {
-        return $query->where('author_id', $userId);
-    }
+    // public function scopeOwnedBy(Builder $query, $userId)
+    // {
+    //     return $query->where('author_id', $userId);
+    // }
 
 }
