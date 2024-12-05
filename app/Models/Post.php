@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -28,6 +29,11 @@ class Post extends Model
     {
         parent::boot();
 
+        static::updating(function ($model) {
+            if ($model->isDirty('thumbnail') && ($model->getOriginal('thumbnail') !== null)) {
+                Storage::disk('public')->delete($model->getOriginal('thumbnail'));
+            }
+        });
         static::saving(function ($post) {
             if (empty($post->slug) || $post->isDirty('title')) {
                 $post->slug = Str::slug($post->title);

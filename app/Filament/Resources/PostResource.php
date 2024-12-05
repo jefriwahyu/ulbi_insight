@@ -67,12 +67,14 @@ class PostResource extends Resource implements HasShieldPermissions
                     'published' => 'heroicon-o-check-circle',
                     'rejected' => 'heroicon-o-x-circle',
                 ])
+                ->inline()
                 ->disabled(fn ($state, $record) => Auth::user()->hasRole('author')),
             Forms\Components\FileUpload::make('thumbnail')
                 ->maxSize(2048)
                 ->disk('public')
                 ->directory('thumbnails')
-                ->image(),
+                ->image()
+                ->imageEditor(),
         ]);
     }
 
