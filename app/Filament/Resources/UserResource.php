@@ -51,6 +51,7 @@ class UserResource extends Resource
                     ->disabled(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
                 Forms\Components\TextInput::make('password')
                 ->password()
+                ->revealable()
                 ->maxLength(8)
                 ->dehydrated(fn ($state) => !empty($state)) // Only save if not empty
                 ->default(fn ($record) => $record ? $record->password : ''),

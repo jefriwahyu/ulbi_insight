@@ -21,6 +21,7 @@ class Post extends Model
         'author_id',
         'category_id',
         'status',
+        'feedback',
         'thumbnail',
     ];
 

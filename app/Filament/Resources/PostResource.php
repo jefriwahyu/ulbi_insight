@@ -77,7 +77,7 @@ class PostResource extends Resource implements HasShieldPermissions
             })
                 ->colors([
                     'draft' => 'gray',
-                    'revision' => '',
+                    'revision' => 'primary',
                     'published' => 'success',
                     'rejected' => 'danger',
                 ])
@@ -93,6 +93,9 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->disk('public')
                 ->directory('thumbnails')
                 ->image(),
+            Forms\Components\Textarea::make('feedback')
+                ->placeholder('Belum ada feedback....')
+                ->disabled(fn ($state, $record) => Auth::user()->hasRole('author')),
         ]);
     }
 
@@ -110,7 +113,8 @@ class PostResource extends Resource implements HasShieldPermissions
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->limit(20)
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\ImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('author.name')
                     ->numeric()
@@ -123,7 +127,7 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'gray',
-                        'revision' => '',
+                        'revision' => 'primary',
                         'published' => 'success',
                         'rejected' => 'danger',
                     })
@@ -139,6 +143,10 @@ class PostResource extends Resource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->since()
                     ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('feedback')
+                    ->tooltip(fn ($record) => $record->feedback)
+                    ->words(5)
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('created_at', 'desc')
