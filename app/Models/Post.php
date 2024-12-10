@@ -2,23 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'title',
         'slug',
-        'body',
+        'body', // ganti 'body' dengan field content jika sesuai
         'author_id',
         'category_id',
         'status',
@@ -28,34 +27,41 @@ class Post extends Model
     protected static function boot()
     {
         parent::boot();
+        
+        static::deleting(function ($post) {
+            // Menghapus gambar yang ada di thumbnail
+            if ($post->thumbnail && Storage::disk('public')->exists($post->thumbnail)) {
+                Storage::disk('public')->delete($post->thumbnail);
+            }
+        });
 
         static::updating(function ($model) {
+            // Menghapus gambar lama jika ada gambar baru pada thumbnail
             if ($model->isDirty('thumbnail') && ($model->getOriginal('thumbnail') !== null)) {
                 Storage::disk('public')->delete($model->getOriginal('thumbnail'));
             }
         });
+
         static::saving(function ($post) {
+            // Membuat slug secara otomatis jika belum ada
             if (empty($post->slug) || $post->isDirty('title')) {
                 $post->slug = Str::slug($post->title);
             }
         });
 
         static::creating(function ($post) {
+            // Mengatur author_id berdasarkan ID pengguna yang sedang login
             $post->author_id = Auth::id();
         });
     }
 
-    public function category(): BelongsTo {
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function author(): BelongsTo {
+    public function author(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
-
-    // public function scopeOwnedBy(Builder $query, $userId)
-    // {
-    //     return $query->where('author_id', $userId);
-    // }
-
 }

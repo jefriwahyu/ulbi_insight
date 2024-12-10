@@ -13,6 +13,8 @@ use Filament\Tables\Table;
 use Filament\Tables\Actions\BulkActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class PostResource extends Resource implements HasShieldPermissions
 {
@@ -47,28 +49,45 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->maxLength(255),
             Forms\Components\RichEditor::make('body')
                 ->required()
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->fileAttachmentsDisk('public')
+                ->fileAttachmentsDirectory('attachments'),
             Forms\Components\Select::make('category_id')
                 ->relationship('category', 'name')
                 ->required(),
             Forms\Components\ToggleButtons::make('status')
-                ->options([
+            ->options(function () {
+                $user = Auth::user();
+        
+                // Jika role adalah author, hanya berikan opsi draft dan revision
+                if ($user->hasRole('author')) {
+                    return [
+                        'draft' => 'Draft',
+                        'revision' => 'Revision',
+                    ];
+                }
+        
+                // Jika bukan author, tampilkan semua opsi
+                return [
                     'draft' => 'Draft',
+                    'revision' => 'Revision',
                     'published' => 'Publish',
                     'rejected' => 'Reject',
-                ])
+                ];
+            })
                 ->colors([
                     'draft' => 'gray',
+                    'revision' => '',
                     'published' => 'success',
                     'rejected' => 'danger',
                 ])
                 ->icons([
                     'draft' => 'heroicon-o-pencil',
+                    'revision' => 'heroicon-o-arrow-path',
                     'published' => 'heroicon-o-check-circle',
                     'rejected' => 'heroicon-o-x-circle',
                 ])
-                ->inline()
-                ->disabled(fn ($state, $record) => Auth::user()->hasRole('author')),
+                ->inline(),
             Forms\Components\FileUpload::make('thumbnail')
                 ->maxSize(2048)
                 ->disk('public')
@@ -104,9 +123,11 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'gray',
+                        'revision' => '',
                         'published' => 'success',
                         'rejected' => 'danger',
-                    }),
+                    })
+                    ->default('draft'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->since()
                     ->sortable()
@@ -120,6 +141,7 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
                     ])
@@ -131,8 +153,7 @@ class PostResource extends Resource implements HasShieldPermissions
                 BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ])
-            ])
-            ;    
+            ]);    
     }
 
     public static function getRelations(): array
@@ -163,4 +184,5 @@ class PostResource extends Resource implements HasShieldPermissions
             'delete_any',
         ];
     }
+
 }
