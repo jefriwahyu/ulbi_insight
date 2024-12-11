@@ -5,6 +5,8 @@ namespace App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource;
 use App\Models\Post;
 use Filament\Actions;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth as Auth;
 
@@ -19,8 +21,18 @@ class ListPosts extends ListRecords
         ];
     }
 
-    // protected function getTableQuery(): Builder
-    // {
-    //     return Post::where('author_id', Auth::user()->id);
-    // }
+    public function getTabs(): array
+    {
+        return [
+            'all' => Tab::make(),
+            'draft' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'draft')),
+            'revision' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'revision')),
+            'published' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'published')),
+            'rejected' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'rejected')),
+        ];
+    }
 }

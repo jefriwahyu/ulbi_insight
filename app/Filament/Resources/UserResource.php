@@ -48,13 +48,13 @@ class UserResource extends Resource
                     ->maxSize(2048),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
-                    ->disabled(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
+                    ->hidden(fn ($state, $record) => !Auth::user()->hasRole('super_admin')),
                 Forms\Components\TextInput::make('password')
-                ->password()
-                ->revealable()
-                ->maxLength(8)
-                ->dehydrated(fn ($state) => !empty($state)) // Only save if not empty
-                ->default(fn ($record) => $record ? $record->password : ''),
+                    ->password()
+                    ->revealable()
+                    ->maxLength(8)
+                    ->dehydrated(fn ($state) => !empty($state)) // Only save if not empty
+                    ->default(fn ($record) => $record ? $record->password : ''),
             ]);
     }
 

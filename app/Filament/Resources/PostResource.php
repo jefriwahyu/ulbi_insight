@@ -9,12 +9,12 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class PostResource extends Resource implements HasShieldPermissions
 {
@@ -56,25 +56,25 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->relationship('category', 'name')
                 ->required(),
             Forms\Components\ToggleButtons::make('status')
-            ->options(function () {
-                $user = Auth::user();
-        
-                // Jika role adalah author, hanya berikan opsi draft dan revision
-                if ($user->hasRole('author')) {
+                ->options(function () {
+                    $user = Auth::user();
+            
+                    // Jika role adalah author, hanya berikan opsi draft dan revision
+                    if ($user->hasRole('author')) {
+                        return [
+                            'draft' => 'Draft',
+                            'revision' => 'Revision',
+                        ];
+                    }
+            
+                    // Jika bukan author, tampilkan semua opsi
                     return [
                         'draft' => 'Draft',
                         'revision' => 'Revision',
+                        'published' => 'Publish',
+                        'rejected' => 'Reject',
                     ];
-                }
-        
-                // Jika bukan author, tampilkan semua opsi
-                return [
-                    'draft' => 'Draft',
-                    'revision' => 'Revision',
-                    'published' => 'Publish',
-                    'rejected' => 'Reject',
-                ];
-            })
+                })
                 ->colors([
                     'draft' => 'gray',
                     'revision' => 'primary',
@@ -87,7 +87,8 @@ class PostResource extends Resource implements HasShieldPermissions
                     'published' => 'heroicon-o-check-circle',
                     'rejected' => 'heroicon-o-x-circle',
                 ])
-                ->inline(),
+                ->inline()
+                ->default('draft'),
             Forms\Components\FileUpload::make('thumbnail')
                 ->maxSize(2048)
                 ->disk('public')
@@ -95,7 +96,7 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->image(),
             Forms\Components\Textarea::make('feedback')
                 ->placeholder('Belum ada feedback....')
-                ->disabled(fn ($state, $record) => Auth::user()->hasRole('author')),
+                ->hidden(fn ($state, $record) => Auth::user()->hasRole('author')),
         ]);
     }
 
@@ -151,8 +152,19 @@ class PostResource extends Resource implements HasShieldPermissions
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from'),
+                        DatePicker::make('created_until'),
                     ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            );
+                    })
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
