@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\DatePicker;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Filters\Filter;
@@ -97,6 +98,12 @@ class PostResource extends Resource implements HasShieldPermissions
             Forms\Components\Textarea::make('feedback')
                 ->placeholder('Belum ada feedback....')
                 ->hidden(fn ($state, $record) => Auth::user()->hasRole('author')),
+            Forms\Components\Toggle::make('is_featured')
+                ->onIcon('heroicon-s-check')
+                ->offIcon('heroicon-s-x-mark')
+                ->onColor('success')
+                ->offColor('danger')
+                ->default(false),
         ]);
     }
 
@@ -122,7 +129,8 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn($state): string => str()->headline($state))
                     ->badge()
@@ -132,6 +140,13 @@ class PostResource extends Resource implements HasShieldPermissions
                         'published' => 'success',
                         'rejected' => 'danger',
                     })
+                    ->icon(fn (string $state): string => match ($state) {
+                        'draft' => 'heroicon-o-pencil',
+                        'revision' => 'heroicon-o-arrow-path',
+                        'published' => 'heroicon-o-check-circle',
+                        'rejected' => 'heroicon-o-x-circle',
+                    })
+                    ->alignCenter()
                     ->default('draft'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->since()
@@ -149,6 +164,9 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->tooltip(fn ($record) => $record->feedback)
                     ->words(5)
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\IconColumn::make('is_featured')
+                    ->boolean()
+                    ->alignCenter(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

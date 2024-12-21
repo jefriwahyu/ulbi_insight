@@ -1,14 +1,14 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/author', function () {
     return view('author');
@@ -22,6 +22,5 @@ Route::get('/details', function () {
     return view('details');
 });
 
-Route::get('/search', function () {
-    return view('search');
-});
+Route::get('/search}', [SearchController::class, 'searchPost'])
+    ->name('search');
