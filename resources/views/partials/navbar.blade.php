@@ -1,7 +1,7 @@
 <nav id="Navbar" class="max-w-[1130px] mx-auto flex justify-between items-center mt-[30px]">
     <div class="logo-container flex gap-[30px] items-center">
-        <a href="{{ url('/home') }}" class="flex shrink-0">
-            <img src="{{ asset('portal-berita/src/assets/images/logos/logo.svg') }}">
+        <a href="{{ url('/') }}" class="flex shrink-0">
+            <img src="{{ asset('storage/logo/ulbiinsight.png') }}">
         </a>
         <div class="h-12 border border-[#E8EBF4]"></div>
         <form action="{{ route('search') }}" method="GET" class="w-[500px] flex items-center rounded-full border border-[#E8EBF4] p-[12px_20px] gap-[10px] focus-within:ring-2 focus-within:ring-[#FF6B18] transition-all duration-300">

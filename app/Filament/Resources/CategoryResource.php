@@ -16,6 +16,11 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Menu';
 
+    protected function getTitle(): string
+    {
+        return 'Kategori';
+    }
+
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
