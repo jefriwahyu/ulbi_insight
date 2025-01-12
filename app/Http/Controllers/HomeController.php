@@ -22,7 +22,7 @@ class HomeController extends Controller
             ->get();
 
         // Ambil berita terbaru (untuk bagian Up-to-date)
-        $latestNews = Post::latest('created_at')
+        $latestNews = Post::latest('updated_at')
             ->where('status', 'published')
             ->take(3)
             ->get();

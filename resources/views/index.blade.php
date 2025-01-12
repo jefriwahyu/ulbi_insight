@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 	@section('title', 'Ulbi Insight')
+
 	@section('content')
 		@include('partials.navbar')
 		<section id="Featured" class="mt-[30px]">
@@ -12,7 +13,7 @@
 						<div class="card-detail max-w-[1130px] w-full mx-auto flex items-end justify-between pb-10 relative z-20">
 							<div class="flex flex-col gap-[10px]">
 								<p class="text-white">Featured</p>
-								<a href="{{ url('/post/' . $post->slug) }}" class="font-bold text-4xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">
+								<a href="{{ url('/post/' . $post->slug) }}" style="text-decoration: none;" class="font-bold text-4xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">
 									{{ $post->title }}
 								</a>
 								<p class="text-white">{{ $post->created_at->format('d M, Y') }} • {{ $post->category->name }}</p>
@@ -50,8 +51,8 @@
 								<img src="{{ asset('storage/' . $news->thumbnail) }}" class="object-cover w-full h-full" alt="{{ $news->title }}" />
 							</div>
 							<div class="card-info flex flex-col gap-[6px]">
-								<h3 class="font-bold text-lg leading-[27px]">
-									{{ \Illuminate\Support\Str::words($news->title, 6, '...') }}
+								<h3 class="font-bold text-lg leading-[27px] line-clamp-2">
+									{{ $news->title }}
 								</h3>
 								<p class="text-sm leading-[21px] text-[#A3A6AE]">
 									{{ $news->created_at->format('d M, Y') }}
@@ -71,9 +72,9 @@
 					Written by People
 				</h2>
 			</div>
-			<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-[30px] justify-center">
+			<div class="flex flex-wrap justify-center gap-[30px]">
 				@foreach ($bestAuthors as $author)
-					<a href="{{ url('/author/' . $author->name) }}" class="card-authors">
+					<a href="{{ url('/author/' . $author->name) }}" class="card-authors w-full sm:w-auto">
 						<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 							<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
 								<img src="{{ asset('storage/' . $author->photo) }}" class="object-cover w-full h-full" alt="{{ $author->name }}" />
@@ -251,11 +252,4 @@
 				</div>
 			</div>
 		</section> --}}
-
-
-		<script src="{{ asset('src/js/two-lines-text.js') }}"></script>
-		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-		<!-- JavaScript -->
-		<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-		<script src="{{ asset('portal-berita/src/js/carousel.js') }}"></script>
 	@endsection

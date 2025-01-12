@@ -1,145 +1,57 @@
 @extends('layouts.app')
 
+	@section('title', '' . $post->title)
+
+	@section('content')
 	@include('partials.navbar')
-	<nav id="Category" class="max-w-[1130px] mx-auto flex justify-center items-center gap-4 mt-[30px]">
-		<a href="categoryPage.html"
-			class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-			<div class="w-6 h-6 flex shrink-0">
-				<img src="{{ asset('portal-berita/src/assets/images/icons/heart.svg') }}" alt="icon" />
-			</div>
-			<span>Health</span>
-		</a>
-		<a href="categoryPage.html"
-			class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-			<div class="w-6 h-6 flex shrink-0">
-				<img src="{{ asset('portal-berita/src/assets/images/icons/status-up.svg')}}" alt="icon" />
-			</div>
-			<span>Business</span>
-		</a>
-		<a href="categoryPage.html"
-			class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-			<div class="w-6 h-6 flex shrink-0">
-				<img src="{{ asset('portal-berita/src/assets/images/icons/car.svg')}}" alt="icon" />
-			</div>
-			<span>Automotive</span>
-		</a>
-		<a href="categoryPage.html"
-			class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-			<div class="w-6 h-6 flex shrink-0">
-				<img src="{{ asset('portal-berita/src/assets/images/icons/global.svg')}}" alt="icon" />
-			</div>
-			<span>Entertainment</span>
-		</a>
-		<a href="categoryPage.html"
-			class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-			<div class="w-6 h-6 flex shrink-0">
-				<img src="{{ asset('portal-berita/src/assets/images/icons/coffee.svg')}}" alt="icon" />
-			</div>
-			<span>Foods</span>
-		</a>
-		<a href="categoryPage.html"
-			class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-			<div class="w-6 h-6 flex shrink-0">
-				<img src="portal-berita/src/assets/images/icons/courthouse.svg" alt="icon" />
-			</div>
-			<span>Politic</span>
-		</a>
-		<a href="categoryPage.html"
-			class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-			<div class="w-6 h-6 flex shrink-0">
-				<img src="{{ asset('portal-berita/src/assets/images/icons/cup.svg')}}" alt="icon" />
-			</div>
-			<span>Sport</span>
-		</a>
-	</nav>
 	<header class="flex flex-col items-center gap-[50px] mt-[70px]">
 		<div id="Headline" class="max-w-[1130px] mx-auto flex flex-col gap-4 items-center">
-			<p class="w-fit text-[#A3A6AE]">12 Jun, 2024 • Business</p>
-			<h1 id="Title" class="font-bold text-[46px] leading-[60px] text-center two-lines">Peternak Jakarta
-				Menggunakan Bantuan A.I Prexpeliangga</h1>
+			<p class="w-fit text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }} • {{ $post->category->name }}</p>
+			<h1 id="Title" class="font-bold text-[46px] leading-[60px] text-center two-lines">{{ $post->title }}</h1>
 			<div class="flex items-center justify-center gap-[70px]">
 				<a id="Author" href="author.html" class="w-fit h-fit">
 					<div class="flex items-center gap-3">
 						<div class="w-10 h-10 rounded-full overflow-hidden">
-							<img src="{{ asset('portal-berita/src/assets/images/photos/photo3.png')}}" class="object-cover w-full h-full" alt="avatar">
+							<img src="{{ asset('storage/' . $post->author->photo) }}" class="object-cover w-full h-full" alt="avatar">
 						</div>
 						<div class="flex flex-col">
-							<p class="font-semibold text-sm leading-[21px]">Rita Putria</p>
-							<p class="text-xs leading-[18px] text-[#A3A6AE]">Sr Programmer</p>
+							<p class="font-semibold text-sm leading-[21px]">{{ $post->author->name }}</p>
+							<p class="text-xs leading-[18px] text-[#A3A6AE]">Author</p>
 						</div>
 					</div>
 				</a>
-				<div id="Rating" class="flex items-center gap-1">
-					<div class="flex items-center">
-						<div class="w-4 h-4 flex shrink-0">
-							<img src="{{ asset('portal-berita/src/assets/images/icons/Star 1.svg')}}" alt="star">
-						</div>
-						<div class="w-4 h-4 flex shrink-0">
-							<img src="{{ asset('portal-berita/src/assets/images/icons/Star 1.svg')}}" alt="star">
-						</div>
-						<div class="w-4 h-4 flex shrink-0">
-							<img src="{{ asset('portal-berita/src/assets/images/icons/Star 1.svg')}}" alt="star">
-						</div>
-						<div class="w-4 h-4 flex shrink-0">
-							<img src="{{ asset('portal-berita/src/assets/images/icons/Star 1.svg')}}" alt="star">
-						</div>
-						<div class="w-4 h-4 flex shrink-0">
-							<img src="{{ asset('portal-berita/src/assets/images/icons/Star 1.svg')}}" alt="star">
-						</div>
-					</div>
-					<p class="font-semibold text-xs leading-[18px]">(12,490)</p>
-				</div>
 			</div>
 		</div>
 		<div class="w-full h-[500px] flex shrink-0 overflow-hidden">
-			<img src="{{ asset('portal-berita/src/assets/images/thumbnails/cover1.jpg')}}" class="object-cover w-full h-full" alt="cover thumbnail">
+			<img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full" alt="cover thumbnail">
 		</div>
 	</header>
 	<section id="Article-container" class="max-w-[1130px] mx-auto flex gap-20 mt-[50px]">
 		<article id="Content-wrapper">
-			<p>I‘ll be real. I held out on AI as long as I could. I was convinced it was going to be humanity’s downfall
-				from the first time my phone had the audacity to tell me I actually meant to say, “I have no ducking
-				idea” — but desperate times call for desperate.</p>
-			<p>Want to teach a course about real estate investing? Fantastic, but make sure you have experience as a
-				real estate investor. Want to teach hair stylists how to successfully open their own salons? Do it. But
-				you should have opened your own salon first.</p>
-			<h3>So you should have known</h3>
-			<p>I launched my first digital course without any prior experience in the niche I was teaching about. In my
-				hurry to <ins>establish myself as an expert</ins>, I overlooked the importance of having hands-on
-				experience. Can you guess how this turned out? Yep, my first course was a total flop:</p>
-			<ul>
-				<li>
-					<p><strong>Credibility:</strong> To build trust with your future students, you need to show them
-						that you're the real deal. Having actual experience in the subject matter is the first step to
-						gaining their confidence.</p>
-				</li>
-			</ul>
-			<ul>
-				<li>
-					<p><strong>Effective Teaching:</strong> When you have demonstrated experience, your teaching becomes
-						more powerful. You can relate to the challenges your students might face and provide practical,
-						real-world solutions for them.</p>
-				</li>
-			</ul>
-			<figure>
-				<img src="{{ asset('portal-berita/src/assets/images/thumbnails/article1.png')}}" alt="image">
-				<figcaption></figcaption>
-			</figure>
-			<h3>What SEO Experts Recommend</h3>
-			<p>For marketers, this means that previously high-ranking content may be outranked by a rich Reddit or Quora
-				thread on the same topic. As a result, it’s becoming increasingly important for businesses to establish
-				a presence on these community-aggregated sites to stay connected to users.</p>
-			<ul>
-				<li>
-					<p><strong>Credibility:</strong> To build trust with your future students, you need to show them
-						that you're the real deal. Having actual experience in the subject matter is the first step to
-						gaining their confidence.</p>
-				</li>
-			</ul>
-			<p>Published on both offline and online marketing materials, these claims boasted investment strategies that
-				were powered by ‘expert AI-driven forecasts’ and that would ‘turn your data into an unfair investing
-				advantage.’ One of them even claimed to be ‘the first regulated AI financial advisor.’</p>
+			{!! $post->body !!}
+	<h5>Share this post : </h5>
+	<!-- Social Share Buttons Container -->
+	<div class="flex items-center gap-3 mt-4">
+		<!-- WhatsApp Share -->
+		<a style="text-decoration: none;" href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' ' . url()->current()) }}" 
+		target="_blank"
+		class="rounded-full px-5 py-3 flex items-center gap-2 font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#059212] text-[#059212]">
+			<img src="{{asset('whatsapp.png')}}" alt="wa" class="w-5 h-5">
+			<span class="text-[#059212]">WhatsApp</span>
+		</a>
+    	<!-- Copy Link -->
+		<button id="copyButton" 
+		onclick="copyLink()" 
+		class="rounded-full px-5 py-3 flex items-center gap-2 font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18] text-[#FF6B18]">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+			</svg>
+			<span id="copyText">Copy Link</span>
+		</button>
+	</div>
+			
 		</article>
+
 		<div class="side-bar flex flex-col w-[300px] shrink-0 gap-10">
 			<div class="ads flex flex-col gap-3 w-full">
 				<a href="">
@@ -152,45 +64,21 @@
 			</div>
 			<div id="More-from-author" class="flex flex-col gap-4">
 				<p class="font-bold">More From Author</p>
-				<a href="" class="card-from-author">
+				@foreach ($authorPost as $post)
+				<a href="{{ url('/post/' . $post->slug) }}" class="card-from-author">
 					<div
 						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[14px] flex gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 						<div class="w-[70px] h-[70px] flex shrink-0 overflow-hidden rounded-2xl">
-							<img src="{{ asset('portal-berita/src/assets/images/thumbnails/th-demonstration.png')}}" class="object-cover w-full h-full"
+							<img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full"
 								alt="thumbnail">
 						</div>
 						<div class="flex flex-col gap-[6px]">
-							<p class="line-clamp-2 font-bold">Gaya pakaian pernikahan artis Lorem, ipsum dolor.</p>
-							<p class="text-xs leading-[18px] text-[#A3A6AE]">12 Jun, 2024 • Entertainment</p>
+							<p class="line-clamp-2 font-bold">{{ $post->title }}</p>
+							<p class="text-xs leading-[18px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }} • {{ $post->category->name }}</p>
 						</div>
 					</div>
 				</a>
-				<a href="" class="card-from-author">
-					<div
-						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[14px] flex gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 overflow-hidden rounded-2xl">
-							<img src="{{ asset('portal-berita/src/assets/images/thumbnails/th-cyclist.png')}}" class="object-cover w-full h-full"
-								alt="thumbnail">
-						</div>
-						<div class="flex flex-col gap-[6px]">
-							<p class="line-clamp-2 font-bold">Gaya pakaian pernikahan artis Lorem, ipsum dolor.</p>
-							<p class="text-xs leading-[18px] text-[#A3A6AE]">12 Jun, 2024 • Entertainment</p>
-						</div>
-					</div>
-				</a>
-				<a href="" class="card-from-author">
-					<div
-						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[14px] flex gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 overflow-hidden rounded-2xl">
-							<img src="{{ asset('portal-berita/src/assets/images/thumbnails/model.png')}}" class="object-cover w-full h-full"
-								alt="thumbnail">
-						</div>
-						<div class="flex flex-col gap-[6px]">
-							<p class="line-clamp-2 font-bold">Gaya pakaian pernikahan artis Lorem, ipsum dolor.</p>
-							<p class="text-xs leading-[18px] text-[#A3A6AE]">12 Jun, 2024 • Entertainment</p>
-						</div>
-					</div>
-				</a>
+				@endforeach
 			</div>
 			<div class="ads flex flex-col gap-3 w-full">
 				<a href="">
@@ -225,65 +113,49 @@
 				</h2>
 			</div>
 			<div class="grid grid-cols-3 gap-[30px]">
-				<a href="{{ url('details')}}" class="card-news">
+				@foreach ($allPosts as $post)
+				<a href="{{ url('/post/' . $post->slug) }}" class="card-news">
 					<div
 						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
 						<div
 							class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
 							<p
 								class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
-								SPORT</p>
-							<img src="{{ asset('portal-berita/src/assets/images/thumbnails/th-cyclist.png')}}" class="object-cover w-full h-full"
+								{{ strtoupper($post->category->name) }}</p>
+							<img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full"
 								alt="thumbnail" />
 						</div>
 						<div class="card-info flex flex-col gap-[6px]">
-							<h3 class="font-bold text-lg leading-[27px]">Bersepeda dapat membuat diri menjadi lebih baik
-								lagi</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
+							<h3 class="font-bold text-lg leading-[27px] line-clamp-2">{{ $post->title }}</h3>
+							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }}</p>
 						</div>
 					</div>
 				</a>
-				<a href="details.html" class="card-news">
-					<div
-						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
-						<div
-							class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-							<p
-								class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
-								ENTERTAINMENT</p>
-							<img src="{{ asset('portal-berita/src/assets/images/thumbnails/camp.png')}}" class="object-cover w-full h-full"
-								alt="thumbnail" />
-						</div>
-						<div class="card-info flex flex-col gap-[6px]">
-							<h3 class="font-bold text-lg leading-[27px]">Beberapa artis ini merayakan ultah di tengah
-								hutan raya</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-						</div>
-					</div>
-				</a>
-				<a href="details.html" class="card-news">
-					<div
-						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
-						<div
-							class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-							<p
-								class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
-								POLITIC</p>
-							<img src="{{ asset('portal-berita/src/assets/images/thumbnails/th-demonstration.png')}}" class="object-cover w-full h-full"
-								alt="thumbnail" />
-						</div>
-						<div class="card-info flex flex-col gap-[6px]">
-							<h3 class="font-bold text-lg leading-[27px]">Terjadi demo pada ibu kota jakarta membuat
-								macet parah</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-						</div>
-					</div>
-				</a>
+				@endforeach
 			</div>
 		</div>
 	</section>
+		<script>
+			function copyLink() {
+				const copyButton = document.getElementById('copyButton');
+				const copyText = document.getElementById('copyText');
 
-	<script src="{{ asset('portal-berita/src/js/two-lines-text.js') }}"></script>
-</body>
+				// Copy URL ke clipboard
+				navigator.clipboard.writeText(window.location.href).then(() => {
+					// Ubah teks tombol menjadi "Copied"
+					copyText.textContent = 'Copied';
 
-</html>
+					// Tambahkan kelas untuk menunjukkan bahwa tombol telah diklik
+					copyButton.classList.add('bg-[#FF6B18]', 'text-white');
+					copyButton.classList.remove('text-[#4F46E5]');
+
+					// Kembalikan teks tombol ke "Copy Link" setelah 3 detik
+					setTimeout(() => {
+						copyText.textContent = 'Copy Link';
+						copyButton.classList.remove('bg-[#FF6B18]', 'text-white');
+						copyButton.classList.add('text-[#4F46E5]');
+					}, 3000);
+				});
+			}
+		</script>
+@endsection
