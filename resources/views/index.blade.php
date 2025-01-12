@@ -1,29 +1,8 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="{{ asset('portal-berita/src/output.css') }}">
-		<link rel="icon" href="{{ asset('storage/logo/ui.png') }}" type="image/png">
-		<link rel="stylesheet" href="{{ asset('portal-berita/src/main.css') }}">
-		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-		<!-- CSS -->
-		<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
-	</head>
-	<body class="font-[Poppins] pb-[72px]">
-		@include('partials.navbar')
-		<nav id="Category" class="max-w-[1130px] mx-auto flex justify-center items-center gap-4 mt-[30px]">
-			@foreach ($categories as $category)
-				<a href="{{ url('/category/' . $category->slug) }}" 
-				   class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-					<div class="w-6 h-6 flex shrink-0">
-						<img src="{{ asset('storage/' . $category->icon) }}" alt="{{ $category->name }} icon" />
-					</div>
-					<span>{{ $category->name }}</span>
-				</a>
-			@endforeach
-		</nav>
+@extends('layouts.app')
 
+	@section('title', 'Ulbi Insight')
+	@section('content')
+		@include('partials.navbar')
 		<section id="Featured" class="mt-[30px]">
 			<div class="main-carousel w-full">
 				@foreach ($featuredPosts as $post)
@@ -101,7 +80,7 @@
 							</div>
 							<div class="flex flex-col gap-1 text-center">
 								<p class="font-semibold">{{ $author->name }}</p>
-								<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $author->post_count }} News</p>
+								<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $author->posts_count }} News</p>
 							</div>
 						</div>
 					</a>
@@ -279,5 +258,4 @@
 		<!-- JavaScript -->
 		<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 		<script src="{{ asset('portal-berita/src/js/carousel.js') }}"></script>
-	</body>
-</html>
+	@endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\Post;
 
 class SearchController extends Controller
@@ -17,7 +18,10 @@ class SearchController extends Controller
         $searchNews = Post::where('title', 'like', '%' . $query . '%')
             ->orWhere('body', 'like', '%' . $validateData['query'] . '%')
             ->get();
+        
+        // Ambil semua kategori
+        $categories = Category::all();
 
-        return view('search', compact('searchNews', 'query'));
+        return view('search', compact('searchNews', 'query', 'categories'));
     }
 }

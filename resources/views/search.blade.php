@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="{{ asset('portal-berita/src/output.css') }}" rel="stylesheet" />
-    <link href="{{ asset('portal-berita/src/main.css') }}" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-</head>
-<body class="font-[Poppins]">
+@extends('layouts.app')
+
+@section('title', 'Search ' . $query)
+@section('content')
     @include('partials.navbar')
     <section id="heading" class="max-w-[1130px] mx-auto flex items-center flex-col gap-[30px] mt-[70px]">
         <h1 class="text-4xl leading-[45px] font-bold text-center">
@@ -42,5 +36,4 @@
 			</div>
 		@endif
     </section>
-</body>
-</html>
+@endsection
