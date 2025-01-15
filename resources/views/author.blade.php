@@ -16,18 +16,18 @@
 				<div class="flex flex-col">
 					<p class="text-lg leading-[27px] font-semibold">{{ $author->name }}</p>
 					<p class="rounded-full p-[2px_8px] font-bold text-xs leading-[18px] w-fit
-					@if ($author->posts->count() <= 0)
+					@if ($author->posts->count() > 0)
 						bg-gray-100 text-gray-600
-					@elseif ($author->posts->count() <= 300)
+					@elseif ($author->posts->count() > 300)
 						bg-blue-100 text-blue-600  
-					@elseif ($author->posts->count() <= 1000)
+					@elseif ($author->posts->count() > 1000)
 						bg-[#FFECE1] text-[#FF6B18]
 					@endif">
-					@if ($author->posts->count() <= 0)
+					@if ($author->posts->count() > 0)
 						Beginner
-					@elseif ($author->posts->count() <= 300)
+					@elseif ($author->posts->count() > 300)
 						Intermediate
-					@elseif ($author->posts->count() <= 1000)
+					@elseif ($author->posts->count() > 1000)
 						Advanced
 					@endif
 				</p>
@@ -55,6 +55,9 @@
 			</a>
 			@endforeach
 		</div>
+		<div class="w-full flex justify-center mt-8">
+			{{ $postsByAuthor->withQueryString()->links() }}
+        </div>
 	</section>
 	<section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px] pb-[70px]">
 		<div class="flex flex-col gap-3 shrink-0 w-fit">

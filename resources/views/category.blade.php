@@ -31,6 +31,9 @@
 				</a>
 				@endforeach
 			</div>
+			<div class="w-full flex justify-center mt-8">
+				{{ $postsByCategory->withQueryString()->links() }}
+			</div>
 		</section>
 
 		<section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px] pb-[70px]">
@@ -41,8 +44,8 @@
 					</div>
 				</a>
 				<p class="font-medium text-sm leading-[21px] text-[#A3A6AE] flex gap-1">
-					Our Advertisement <a href="#" class="w-[18px] h-[18px]"><img
-							src="{{ asset('portal-berita/src/assets/images/icons/message-question.svg') }}" alt="icon" /></a>
+					Our Advertisement <a href="#" class="w-[18px] h-[18px]">
+					<img src="{{ asset('portal-berita/src/assets/images/icons/message-question.svg') }}" alt="icon" /></a>
 				</p>
 			</div>
 		</section>

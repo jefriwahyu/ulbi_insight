@@ -15,8 +15,8 @@ class FilterCategoryController extends Controller
         $postsByCategory = Post::with('category')
             ->where('category_id', $category->id)
             ->where('status', 'published')
-            ->take(6)
-            ->get();
+            ->latest()
+            ->paginate(6);
         
         $categories = Category::all();
 

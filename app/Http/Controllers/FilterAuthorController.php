@@ -16,8 +16,8 @@ class FilterAuthorController extends Controller
         $postsByAuthor = Post::with('author')
             ->where('author_id', $author->id)
             ->where('status', 'published')
-            ->take(6)
-            ->get();
+            ->latest()
+            ->paginate(1);
         
         $categories = Category::all();
 

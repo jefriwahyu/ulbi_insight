@@ -16,8 +16,9 @@ class SearchController extends Controller
         $query = $validateData['query'];
 
         $searchNews = Post::where('title', 'like', '%' . $query . '%')
-            ->orWhere('body', 'like', '%' . $validateData['query'] . '%')
-            ->get();
+            ->orWhere('body', 'like', '%' . $query . '%')
+            ->latest()
+            ->paginate(6);
         
         // Ambil semua kategori
         $categories = Category::all();
