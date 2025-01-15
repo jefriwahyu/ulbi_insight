@@ -24,8 +24,6 @@ class DetailController extends Controller
                         ->get();
         $categories = Category::all();
 
-        // dd($post);
-
         return view('details', compact('post','categories', 'authorPost', 'allPosts'));
     }
 }

@@ -103,7 +103,7 @@
 			</div>
 		</section>
 
-		<section id="Latest-entertainment" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] mt-[70px]">
+		<section id="Latest-entertainment" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] my-[70px]">
 			<div class="flex justify-between items-center">
 				<h2 class="font-bold text-[26px] leading-[39px]">
 					Latest For You <br />
@@ -122,8 +122,8 @@
 						<div class="card-detail w-full flex items-end p-[30px] relative z-20">
 							<div class="flex flex-col gap-[10px]">
 								<p class="text-white">Featured</p>
-								<a href="{{ url('/post/' . $featuredEntertainment->slug) }}" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">
-									{{ \Illuminate\Support\Str::words($featuredEntertainment->title, 7, '...')}}
+								<a href="{{ url('/post/' . $featuredEntertainment->slug) }}" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300 line-clamp-2">
+									{{$featuredEntertainment->title}}
 								</a>
 								<p class="text-white">{{ $featuredEntertainment->created_at->format('d M, Y') }}</p>
 							</div>
@@ -141,7 +141,7 @@
 										<img src="{{ asset('storage/' . $news->thumbnail) }}" class="object-cover w-full h-full" alt="{{ $news->title }}" />
 									</div>
 									<div class="flex flex-col justify-center gap-[6px]">
-										<h3 class="font-bold text-lg leading-[27px]">{{ \Illuminate\Support\Str::words($news->title, 7, '...')}}</h3>
+										<h3 class="font-bold text-lg leading-[27px] line-clamp-2">{{$news->title, 7}}</h3>
 										<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $news->created_at->format('d M, Y') }}</p>
 									</div>
 								</div>

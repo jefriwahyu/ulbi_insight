@@ -30,7 +30,7 @@ class Category extends Model
         });
     }
 
-    public function posts(): HasMany {
-        return $this->hasMany(Post::class);
+    public function posts() {
+        return $this->hasMany(Post::class, 'category_id');
     }
 }

@@ -5,7 +5,7 @@
             <a href="{{ url('/') }}" class="flex shrink-0 mr-[20px]">
                 <img src="{{ asset('storage/logo/ulbiinsight.png') }}" alt="Logo" class="h-[40px]" />
             </a>
-
+            <div class="h-12 border border-[#E8EBF4]"></div>
         <!-- Search Box -->
         <div style="margin: 0 60px 0px 30px;" class="flex-1 flex items-center rounded-full border border-[#E8EBF4] p-[12px_20px] gap-[10px] focus-within:ring-2 focus-within:ring-[#FF6B18] transition-all duration-300 mx-[20px]">
             <button type="submit" class="w-5 h-5 flex shrink-0">
@@ -24,10 +24,9 @@
     </form>
 </nav>
 
-
 <nav id="Category" class="max-w-[1130px] mx-auto flex justify-center items-center gap-4 mt-[30px]">
     @foreach ($categories as $category)
-        <a href="{{ url('/category/' . $category->slug) }}" 
+        <a href="{{ url('/category/' . $category->slug)}}" 
            class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
             <div class="w-6 h-6 flex shrink-0">
                 <img src="{{ asset('storage/' . $category->icon) }}" alt="{{ $category->name }} icon" />
@@ -35,4 +34,5 @@
             <span>{{ $category->name }}</span>
         </a>
     @endforeach
+
 </nav>

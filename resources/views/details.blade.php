@@ -3,13 +3,14 @@
 	@section('title', '' . $post->title)
 
 	@section('content')
+	
 	@include('partials.navbar')
 	<header class="flex flex-col items-center gap-[50px] mt-[70px]">
 		<div id="Headline" class="max-w-[1130px] mx-auto flex flex-col gap-4 items-center">
 			<p class="w-fit text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }} • {{ $post->category->name }}</p>
 			<h1 id="Title" class="font-bold text-[46px] leading-[60px] text-center two-lines">{{ $post->title }}</h1>
 			<div class="flex items-center justify-center gap-[70px]">
-				<a id="Author" href="author.html" class="w-fit h-fit">
+				<a id="Author" href="{{ url('/author/' . $post->author->name) }}" class="w-fit h-fit">
 					<div class="flex items-center gap-3">
 						<div class="w-10 h-10 rounded-full overflow-hidden">
 							<img src="{{ asset('storage/' . $post->author->photo) }}" class="object-cover w-full h-full" alt="avatar">
@@ -104,37 +105,40 @@
 			</p>
 		</div>
 	</section>
-	<section id="Up-to-date" class="w-full flex justify-center mt-[70px] py-[50px] bg-[#F9F9FC]">
-		<div class="max-w-[1130px] mx-auto flex flex-col gap-[30px]">
-			<div class="flex justify-between items-center">
-				<h2 class="font-bold text-[26px] leading-[39px]">
-					Other News You <br />
-					Might Be Interested
-				</h2>
-			</div>
-			<div class="grid grid-cols-3 gap-[30px]">
-				@foreach ($allPosts as $post)
-				<a href="{{ url('/post/' . $post->slug) }}" class="card-news">
-					<div
-						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
+		<section id="Up-to-date" class="w-full flex justify-center mt-[70px] py-[50px] bg-[#F9F9FC] mb-0">
+			<div class="max-w-[1130px] mx-auto flex flex-col gap-[30px]">
+				<div class="flex justify-between items-center">
+					<h2 class="font-bold text-[26px] leading-[39px]">
+						Other News You <br />
+						Might Be Interested
+					</h2>
+				</div>
+				<div class="grid grid-cols-3 gap-[30px]">
+					@foreach ($allPosts as $post)
+					<a href="{{ url('/post/' . $post->slug) }}" class="card-news">
 						<div
-							class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-							<p
-								class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
-								{{ strtoupper($post->category->name) }}</p>
-							<img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full"
-								alt="thumbnail" />
+							class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
+							<div
+								class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
+								<p
+									class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
+									{{ strtoupper($post->category->name) }}</p>
+								<img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full"
+									alt="thumbnail" />
+							</div>
+							<div class="card-info flex flex-col gap-[6px]">
+								<h3 class="font-bold text-lg leading-[27px] line-clamp-2">{{ $post->title }}</h3>
+								<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }}</p>
+							</div>
 						</div>
-						<div class="card-info flex flex-col gap-[6px]">
-							<h3 class="font-bold text-lg leading-[27px] line-clamp-2">{{ $post->title }}</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }}</p>
-						</div>
-					</div>
-				</a>
-				@endforeach
+					</a>
+					@endforeach
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+@endsection
+
+		@push('scripts')
 		<script>
 			function copyLink() {
 				const copyButton = document.getElementById('copyButton');
@@ -158,4 +162,4 @@
 				});
 			}
 		</script>
-@endsection
+		@endpush
