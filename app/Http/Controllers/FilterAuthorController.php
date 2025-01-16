@@ -17,7 +17,7 @@ class FilterAuthorController extends Controller
             ->where('author_id', $author->id)
             ->where('status', 'published')
             ->latest()
-            ->paginate(1);
+            ->paginate(6);
         
         $categories = Category::all();
 
