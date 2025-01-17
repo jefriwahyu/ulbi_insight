@@ -17,11 +17,14 @@ class DetailController extends Controller
 
         $post = Post::with('author')->where('slug', $request->slug)->first();
 
+        $post->increment('views');  
+
         $authorPost = Post::where('author_id', $post->author_id)
                         ->where('status', 'published')
                         ->inRandomOrder()
                         ->take(5)
                         ->get();
+                        
         $categories = Category::all();
 
         return view('details', compact('post','categories', 'authorPost', 'allPosts'));

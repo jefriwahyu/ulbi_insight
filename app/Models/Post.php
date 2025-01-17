@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 
 class Post extends Model
 {
@@ -17,7 +16,8 @@ class Post extends Model
     protected $fillable = [
         'title',
         'slug',
-        'body', // ganti 'body' dengan field content jika sesuai
+        'body',
+        'views',
         'author_id',
         'category_id',
         'status',

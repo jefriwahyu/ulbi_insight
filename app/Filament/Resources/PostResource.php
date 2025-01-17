@@ -124,11 +124,15 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('thumbnail'),
-                Tables\Columns\TextColumn::make('author.name')
+                Tables\Columns\TextColumn::make('views')
                     ->numeric()
+                    ->sortable()
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('author.name')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
+                    ->searchable()
                     ->sortable()
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('status')
@@ -206,8 +210,6 @@ class PostResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            // 'view' => Pages\ViewPost::route('/{record}'),
-            // 'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }
 

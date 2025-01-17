@@ -18,16 +18,16 @@
 					<p class="rounded-full p-[2px_8px] font-bold text-xs leading-[18px] w-fit
 					@if ($author->posts->count() > 0)
 						bg-gray-100 text-gray-600
-					@elseif ($author->posts->count() > 300)
+					@elseif ($author->posts->count() > 5)
 						bg-blue-100 text-blue-600  
-					@elseif ($author->posts->count() > 1000)
+					@elseif ($author->posts->count() > 10)
 						bg-[#FFECE1] text-[#FF6B18]
 					@endif">
 					@if ($author->posts->count() > 0)
 						Beginner
-					@elseif ($author->posts->count() > 300)
+					@elseif ($author->posts->count() > 5)
 						Intermediate
-					@elseif ($author->posts->count() > 1000)
+					@elseif ($author->posts->count() > 10)
 						Advanced
 					@endif
 				</p>

@@ -6,6 +6,7 @@ use App\Http\Controllers\FilterCategoryController;
 use App\Http\Controllers\FilterAuthorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DetailController;
+use App\Http\Controllers\AllPostsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,3 +25,6 @@ Route::get('/post/{slug}', [DetailController::class, 'detailPost'])
 
 Route::get('/search', [SearchController::class, 'searchPost'])
     ->name('search');
+
+Route::get('/allposts', [AllPostsController::class, 'allPosts'])
+    ->name('allposts');

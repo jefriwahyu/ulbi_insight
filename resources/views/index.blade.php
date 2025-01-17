@@ -19,10 +19,10 @@
 								<p class="text-white">{{ $post->created_at->format('d M, Y') }} • {{ $post->category->name }}</p>
 							</div>
 							<div class="prevNextButtons flex items-center gap-4 mb-[60px]">
-								<button class="button--previous appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
+								<button class="button--previous appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:bg-[#FF6B18] hover:ring-[#FF6B18] transition-all duration-300">
 									<img src="{{ asset('portal-berita/src/assets/images/icons/arrow.svg') }}" alt="arrow" />
 								</button>
-								<button class="button--next appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 rotate-180">
+								<button class="button--next appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:bg-[#FF6B18] hover:ring-[#FF6B18] transition-all duration-300 rotate-180">
 									<img src="{{ asset('portal-berita/src/assets/images/icons/arrow.svg') }}" alt="arrow" />
 								</button>
 							</div>
@@ -106,143 +106,44 @@
 		<section id="Latest-entertainment" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] my-[70px]">
 			<div class="flex justify-between items-center">
 				<h2 class="font-bold text-[26px] leading-[39px]">
-					Latest For You <br />
-					in Entertainment
+					Most Views Post <br />
+					You can Explore
 				</h2>
-				<a href="{{ url('/category/entertainment') }}" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
+				<a href="{{ url('/allposts') }}" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
 					Explore All
 				</a>
 			</div>
-			<div class="flex justify-between items-center h-fit">
-				<!-- Featured News -->
-				@if ($featuredEntertainment)
-					<div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
-						<img src="{{ asset('storage/' . $featuredEntertainment->thumbnail) }}" class="thumbnail absolute w-full h-full object-cover" alt="{{ $featuredEntertainment->title }}" />
-						<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
-						<div class="card-detail w-full flex items-end p-[30px] relative z-20">
-							<div class="flex flex-col gap-[10px]">
-								<p class="text-white">Featured</p>
-								<a href="{{ url('/post/' . $featuredEntertainment->slug) }}" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300 line-clamp-2">
-									{{$featuredEntertainment->title}}
-								</a>
-								<p class="text-white">{{ $featuredEntertainment->created_at->format('d M, Y') }}</p>
-							</div>
-						</div>
-					</div>
-				@endif
-		
-				<!-- Additional News -->
-				<div class="h-[424px] w-fit px-5 overflow-y-scroll overflow-x-hidden relative custom-scrollbar">
-					<div class="w-[455px] flex flex-col gap-5 shrink-0">
-						@foreach ($entertainmentNews as $news)
-							<a href="{{ url('/post/' . $news->slug) }}" class="card py-[2px]">
-								<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-									<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-										<img src="{{ asset('storage/' . $news->thumbnail) }}" class="object-cover w-full h-full" alt="{{ $news->title }}" />
-									</div>
-									<div class="flex flex-col justify-center gap-[6px]">
-										<h3 class="font-bold text-lg leading-[27px] line-clamp-2">{{$news->title, 7}}</h3>
-										<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $news->created_at->format('d M, Y') }}</p>
-									</div>
-								</div>
-							</a>
-						@endforeach
-					</div>
-					<div class="sticky z-10 bottom-0 w-full h-[100px] bg-gradient-to-b from-[rgba(255,255,255,0.19)] to-[rgba(255,255,255,1)]"></div>
-				</div>
-			</div>
-		</section>
-		
-		{{-- <section id="Latest-business" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] mt-[70px]">
-			<div class="flex justify-between items-center">
-				<h2 class="font-bold text-[26px] leading-[39px]">
-					Latest For You <br />
-					in Business
-				</h2>
-				<a href="{{ url('/category/business') }}" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-					Explore All
-				</a>
-			</div>
-			<div class="flex justify-between items-center h-fit">
-				<!-- Featured Business News -->
-				@if ($featuredBusiness)
-					<div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
-						<img src="{{ asset('storage/' . $featuredBusiness->thumbnail) }}" class="thumbnail absolute w-full h-full object-cover" alt="{{ $featuredBusiness->title }}" />
-						<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
-						<div class="card-detail w-full flex items-end p-[30px] relative z-20">
-							<div class="flex flex-col gap-[10px]">
-								<p class="text-white">Featured</p>
-								<a href="{{ url('/post/' . $featuredBusiness->slug) }}" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">
-									{{ $featuredBusiness->title }}
-								</a>
-								<p class="text-white">{{ $featuredBusiness->published_at->format('d M, Y') }}</p>
-							</div>
-						</div>
-					</div>
-				@endif
-		
-				<!-- Additional Business News -->
-				<div class="h-[424px] w-fit px-5 overflow-y-scroll overflow-x-hidden relative custom-scrollbar">
-					<div class="w-[455px] flex flex-col gap-5 shrink-0">
-						@foreach ($businessNews as $news)
-							<a href="{{ url('/post/' . $news->slug) }}" class="card py-[2px]">
-								<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-									<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-										<img src="{{ asset('storage/' . $news->thumbnail) }}" class="object-cover w-full h-full" alt="{{ $news->title }}" />
-									</div>
-									<div class="flex flex-col justify-center gap-[6px]">
-										<h3 class="font-bold text-lg leading-[27px]">{{ $news->title }}</h3>
-										<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $news->published_at->format('d M, Y') }}</p>
-									</div>
-								</div>
-							</a>
-						@endforeach
-					</div>
-					<div class="sticky z-10 bottom-0 w-full h-[100px] bg-gradient-to-b from-[rgba(255,255,255,0.19)] to-[rgba(255,255,255,1)]"></div>
-				</div>
-			</div>
-		</section>
-		
-		<section id="Latest-automotive" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] mt-[70px]">
-			<div class="flex justify-between items-center">
-				<h2 class="font-bold text-[26px] leading-[39px]">
-					Latest For You <br />
-					in Automotive
-				</h2>
-				<a href="{{ url('/category/automotive') }}" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-					Explore All
-				</a>
-			</div>
-			<div class="flex justify-between items-center h-fit">
-				<!-- Featured Automotive News -->
-				@if ($featuredAutomotive)
-					<div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
-						<img src="{{ asset('storage/' . $featuredAutomotive->thumbnail) }}" class="thumbnail absolute w-full h-full object-cover" alt="{{ $featuredAutomotive->title }}" />
-						<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
-						<div class="card-detail w-full flex items-end p-[30px] relative z-20">
-							<div class="flex flex-col gap-[10px]">
-								<p class="text-white">Featured</p>
-								<a href="{{ url('/post/' . $featuredAutomotive->slug) }}" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">
-									{{ $featuredAutomotive->title }}
-								</a>
-								<p class="text-white">{{ $featuredAutomotive->published_at->format('d M, Y') }}</p>
-							</div>
-						</div>
-					</div>
-				@endif
 
-				<!-- Additional Automotive News -->
+			<div class="flex justify-between items-center h-fit">
+				<!-- Most Views Post -->
+				@if ($mostViewPost)
+					<div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
+						<img src="{{ asset('storage/' . $mostViewPost->thumbnail) }}" class="thumbnail absolute w-full h-full object-cover" alt="{{ $mostViewPost->title }}" />
+						<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
+						<div class="card-detail w-full flex items-end p-[30px] relative z-20">
+							<div class="flex flex-col gap-[10px]">
+								<p class="text-white">Featured</p>
+								<a href="{{ url('/post/' . $mostViewPost->slug) }}" style="text-decoration: none;" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300 line-clamp-2">
+									{{$mostViewPost->title}}
+								</a>
+								<p class="text-white">{{ $mostViewPost->created_at->format('d M, Y') }}</p>
+							</div>
+						</div>
+					</div>
+				@endif
+		
+				<!-- Post News -->
 				<div class="h-[424px] w-fit px-5 overflow-y-scroll overflow-x-hidden relative custom-scrollbar">
 					<div class="w-[455px] flex flex-col gap-5 shrink-0">
-						@foreach ($automotiveNews as $news)
-							<a href="{{ url('/post/' . $news->slug) }}" class="card py-[2px]">
+						@foreach ($viewPost as $post)
+							<a href="{{ url('/post/' . $post->slug) }}" class="card py-[2px]">
 								<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 									<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-										<img src="{{ asset('storage/' . $news->thumbnail) }}" class="object-cover w-full h-full" alt="{{ $news->title }}" />
+										<img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full" alt="{{ $post->title }}" />
 									</div>
 									<div class="flex flex-col justify-center gap-[6px]">
-										<h3 class="font-bold text-lg leading-[27px]">{{ $news->title }}</h3>
-										<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $news->published_at->format('d M, Y') }}</p>
+										<h3 class="font-bold text-lg leading-[27px] line-clamp-2">{{$post->title, 7}}</h3>
+										<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }}</p>
 									</div>
 								</div>
 							</a>
@@ -251,5 +152,5 @@
 					<div class="sticky z-10 bottom-0 w-full h-[100px] bg-gradient-to-b from-[rgba(255,255,255,0.19)] to-[rgba(255,255,255,1)]"></div>
 				</div>
 			</div>
-		</section> --}}
+		</section>
 	@endsection

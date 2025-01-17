@@ -108,9 +108,8 @@
 		<section id="Up-to-date" class="w-full flex justify-center mt-[70px] py-[50px] bg-[#F9F9FC] mb-0">
 			<div class="max-w-[1130px] mx-auto flex flex-col gap-[30px]">
 				<div class="flex justify-between items-center">
-					<h2 class="font-bold text-[26px] leading-[39px]">
-						Other News You <br />
-						Might Be Interested
+					<h2 class="font-bold text-[20px] leading-[39px] badge-orange rounded-full p-[8px_18px] bg-[#FFECE1] text-[#FF6B18] w-fit">
+						Other News You Might Be Interested...
 					</h2>
 				</div>
 				<div class="grid grid-cols-3 gap-[30px]">
