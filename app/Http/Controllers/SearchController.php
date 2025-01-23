@@ -15,14 +15,19 @@ class SearchController extends Controller
 
         $query = $validateData['query'];
 
-        $searchNews = Post::where('title', 'like', '%' . $query . '%')
+        $searchPost = Post::where('status', 'published')
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->where('title', 'like', '%' . $query . '%')
             ->orWhere('body', 'like', '%' . $query . '%')
             ->latest()
             ->paginate(6);
         
-        // Ambil semua kategori
-        $categories = Category::all();
+        // Ambil semua kategori yang statusnya active
+        $categories = Category::where('status', 'active')
+            ->get();
 
-        return view('search', compact('searchNews', 'query', 'categories'));
+        return view('search', compact('searchPost', 'query', 'categories'));
     }
 }

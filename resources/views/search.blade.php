@@ -13,9 +13,9 @@
 		<h2 class="text-[26px] leading-[39px] font-bold flex items-center gap-3">
 			Search Result: <span class="badge-orange rounded-full p-[8px_18px] bg-[#FFECE1] font-bold text-sm leading-[21px] text-[#FF6B18] w-fit inline-flex items-center">{{ $query }}</span>
 		</h2>
-        @if($searchNews->count() > 0)
+        @if($searchPost->count() > 0)
         <div id="search-cards" class="grid grid-cols-3 gap-[30px]">
-            @foreach($searchNews as $post)
+            @foreach($searchPost as $post)
             <a href="{{ url('/post/' . $post->slug) }}" class="card">
                 <div class="flex flex-col gap-4 p-[26px_20px] transition-all duration-300 ring-1 ring-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18] rounded-[20px] overflow-hidden bg-white">
                     <div class="thumbnail-container h-[200px] relative rounded-[20px] overflow-hidden">
@@ -26,14 +26,16 @@
                     </div>
                     <div class="flex flex-col gap-[6px]">
                         <h3 class="text-lg leading-[27px] font-bold line-clamp-2">{{ $post->title }}</h3>
-                        <p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }}</p> <!-- Ganti dengan format tanggal yang sesuai -->
+                        <p class="text-sm leading-[20px] text-[#A3A6AE]">
+                            {{ $post->created_at->diffForHumans() }}
+                        </p>
                     </div>
                 </div>
             </a>
             @endforeach
         </div>
 		<div class="w-full flex justify-center mt-8">
-			{{ $searchNews->withQueryString()->links() }}
+			{{ $searchPost->withQueryString()->links() }}
         </div>
         @else
         <div class="flex items-center justify-center w-full min-h-[200px]">

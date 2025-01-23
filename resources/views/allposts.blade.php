@@ -22,7 +22,9 @@
                     </div>
                     <div class="flex flex-col gap-[6px]">
                         <h3 class="text-lg leading-[27px] font-bold line-clamp-2">{{ $post->title }}</h3>
-                        <p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }}</p> <!-- Ganti dengan format tanggal yang sesuai -->
+                        <p class="text-sm leading-[20px] text-[#A3A6AE]">
+							{{ $post->created_at->diffForHumans() }}
+						</p>
                     </div>
                 </div>
             </a>

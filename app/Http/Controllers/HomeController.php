@@ -8,28 +8,43 @@ use App\Models\User;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function home()
     {
         // Ambil semua kategori
-        $categories = Category::all();
+        $categories = Category::where('status', 'active')
+            ->get();
 
         // Ambil berita unggulan untuk carousel utama
-        $featuredPosts = Post::where('is_featured', true)
-            ->where('status', 'published')
+        $featuredPosts = Post::where('status', 'published')
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->where('is_featured', true)
             ->latest('created_at')
             ->take(5)
             ->get();
 
         // Ambil berita terbaru (untuk bagian Up-to-date)
-        $latestNews = Post::latest('updated_at')
-            ->where('status', 'published')
+        $latestPost = Post::where('status', 'published')
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->latest('created_at')
             ->take(3)
             ->get();
 
-        $mostViewPost = Post::orderBy('views', 'desc')->first(); 
+        $mostViewPost = Post::where('status', 'published')
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->orderBy('views', 'desc')->first(); 
 
         // Ambil berita dengan views tertinggi kedua dan seterusnya
-        $viewPost = Post::orderBy('views', 'desc')  
+        $viewPost = Post::where('status', 'published')
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->orderBy('views', 'desc')  
             ->skip(1)
             ->take(10)  
             ->get(); 
@@ -38,14 +53,14 @@ class HomeController extends Controller
         $bestAuthors = User::role('author')
             ->withCount('posts')
             ->orderBy('posts_count', 'desc') // Urutkan berdasarkan jumlah posting
-            ->take(6) // Batasi ke 6 pengguna terbaik
+            ->take(3) // Batasi ke 6 pengguna terbaik
             ->get();
             // dd($bestAuthors);
 
-        return view('index', compact(
+        return view('home', compact(
             'categories',
             'featuredPosts',
-            'latestNews',
+            'latestPost',
             'mostViewPost',
             'viewPost',
             'bestAuthors'

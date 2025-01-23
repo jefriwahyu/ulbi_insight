@@ -17,7 +17,7 @@
         <!-- Login Button -->
             <a href="{{ url('dashboard/login') }}" class="flex shrink-0 rounded-full p-[12px_22px] gap-[10px] font-bold transition-all duration-300 bg-[#FF6B18] text-white hover:shadow-[0_10px_20px_0_#FF6B1880] items-center ml-[20px]">
                 <div class="w-6 h-6 flex shrink-0">
-                    <img src="{{ asset('portal-berita/src/assets/images/icons/favorite-chart.svg') }}" alt="icon" />
+                    <img src="{{ asset('portal-berita/src/assets/images/icons/login.png') }}" alt="icon" />
                 </div>
                 <span>Login</span>
             </a>

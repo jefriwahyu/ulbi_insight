@@ -12,7 +12,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'home']);
 
 Route::get('/author/{name}', [FilterAuthorController::class, 'authorPost'])
     ->name('author');

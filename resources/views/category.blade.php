@@ -10,6 +10,7 @@
 				Explore Our <br/>
 				{{$category->name}} News
 			</h1>
+			@if($postsByCategory->count() > 0) 
 			<div id="search-cards" class="grid grid-cols-3 gap-[30px]">
 				@foreach ($postsByCategory as $post)
 				<a href="{{ url('/post/' . $post->slug) }}" class="card">
@@ -25,7 +26,9 @@
 						</div>
 						<div class="flex flex-col gap-[6px]">
 							<h3 class="text-lg leading-[27px] font-bold line-clamp-2">{{ $post->title }}</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }}</p>
+							<p class="text-sm leading-[20px] text-[#A3A6AE]">
+								{{ $post->created_at->diffForHumans() }}
+							</p>
 						</div>
 					</div>
 				</a>
@@ -34,6 +37,14 @@
 			<div class="w-full flex justify-center mt-8">
 				{{ $postsByCategory->withQueryString()->links() }}
 			</div>
+
+			@else
+			<div class="flex items-center justify-center w-full min-h-[200px]">
+				<h2 class="text-center font-bold text-lg text-gray-600">
+					There are no posts with "{{ $categoryName }}" categories yet.. 
+				</h2>
+			</div>
+			@endif
 		</section>
 
 		<section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px] pb-[70px]">

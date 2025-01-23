@@ -63,8 +63,7 @@ class CategoryResource extends Resource
                         'active' => 'success',
                         'nonactive' => 'danger',
                 }),
-                Tables\Columns\TextColumn::make('icon')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('icon'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -75,7 +75,9 @@
 						</div>
 						<div class="flex flex-col gap-[6px]">
 							<p class="line-clamp-2 font-bold">{{ $post->title }}</p>
-							<p class="text-xs leading-[18px] text-[#A3A6AE]">{{ $post->created_at->format('d M, Y') }} • {{ $post->category->name }}</p>
+							<p class="text-sm leading-[20px] text-[#A3A6AE]">
+								{{ Str::limit($post->created_at->diffForHumans() . ' • ' . $post->category->name, 24, '...') }}
+							</p>
 						</div>
 					</div>
 				</a>
