@@ -29,7 +29,7 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->label('Nama Kategori')
+                    ->label('Category Name')
                     ->maxLength(255),
                 Forms\Components\ToggleButtons::make('status')
                     ->required()
@@ -45,7 +45,8 @@ class CategoryResource extends Resource
                     ->default('active'),
                 Forms\Components\FileUpload::make('icon')
                     ->image()
-                    ->directory('icons'),
+                    ->directory('icons')
+                    ->maxSize(2048),
             ]);
     }
 
@@ -66,12 +67,10 @@ class CategoryResource extends Resource
                 Tables\Columns\ImageColumn::make('icon'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -81,7 +80,7 @@ class CategoryResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -97,7 +96,7 @@ class CategoryResource extends Resource
         return [
             'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
-            // 'edit' => Pages\EditCategory::route('/{record}/edit'),
+
         ];
     }
 }

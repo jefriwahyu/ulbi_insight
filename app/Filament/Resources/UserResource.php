@@ -20,15 +20,6 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    public static function getNavigationBadge(): ?string
-    {
-        // Menghitung jumlah user
-        $userCount = User::count();
-
-        // Mengembalikan jumlah user sebagai string
-        return $userCount ? (string) $userCount : null;
-    }
-
     public static function form(Form $form): Form
     {
         return $form
@@ -54,7 +45,6 @@ class UserResource extends Resource
                     ->revealable()
                     ->maxLength(8)
                     ->dehydrated(fn ($state) => !empty($state)) // Only save if not empty
-                    ->default(fn ($record) => $record ? $record->password : ''),
             ]);
     }
 
@@ -69,10 +59,8 @@ class UserResource extends Resource
             return $query->where('id', Auth::id()); // Author hanya melihat postingannya sendiri
         })
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\ImageColumn::make('photo')
                     ->circular(),
                 Tables\Columns\TextColumn::make('roles.name')
@@ -85,12 +73,10 @@ class UserResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -100,7 +86,7 @@ class UserResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

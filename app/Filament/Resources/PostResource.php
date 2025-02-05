@@ -9,11 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Components\DatePicker;
-use Filament\Support\Enums\Alignment;
 use Filament\Tables\Table;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,24 +21,10 @@ class PostResource extends Resource implements HasShieldPermissions
     
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function getNavigationBadge(): ?string
-    {
-        // Ambil user yang sedang login
-        $user = Auth::user();
-
-        // Hitung jumlah Post yang dimiliki oleh user yang sedang login
-        if ($user->hasRole('author')) {
-            $postCount = Post::where('author_id', $user->id)->count();
-        } else {
-            $postCount = Post::count(); 
-        }
-
-        // Kembalikan jumlah Post sebagai string untuk badge
-        return (string) $postCount;
-    }
-
     public static function form(Form $form): Form
     {
+        $user = Auth::user();
+        
         return $form
         ->schema([
             Forms\Components\TextInput::make('title')
@@ -54,13 +36,10 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->fileAttachmentsDisk('public')
                 ->fileAttachmentsDirectory('attachments'),
             Forms\Components\Select::make('category_id')
-                ->relationship('category', 'name')
+                ->relationship('category', 'name', fn ($query) => $query->where('status', 'active'))
                 ->required(),
             Forms\Components\ToggleButtons::make('status')
-                ->options(function () {
-                    $user = Auth::user();
-            
-                    // Jika role adalah author, hanya berikan opsi draft dan revision
+                ->options(function () use ($user) {
                     if ($user->hasRole('author')) {
                         return [
                             'draft' => 'Draft',
@@ -68,7 +47,6 @@ class PostResource extends Resource implements HasShieldPermissions
                         ];
                     }
             
-                    // Jika bukan author, tampilkan semua opsi
                     return [
                         'draft' => 'Draft',
                         'revision' => 'Revision',
@@ -89,7 +67,8 @@ class PostResource extends Resource implements HasShieldPermissions
                     'rejected' => 'heroicon-o-x-circle',
                 ])
                 ->inline()
-                ->default('draft'),
+                ->default('draft')
+                ->live(),
             Forms\Components\FileUpload::make('thumbnail')
                 ->maxSize(2048)
                 ->disk('public')
@@ -97,7 +76,16 @@ class PostResource extends Resource implements HasShieldPermissions
                 ->image(),
             Forms\Components\Textarea::make('feedback')
                 ->placeholder('Belum ada feedback....')
-                ->hidden(fn ($state, $record) => Auth::user()->hasRole('author')),
+                ->hidden(function ($get) use ($user) {
+                    // Sembunyikan jika user adalah author
+                    if ($user->hasRole('author')) {
+                        return true;
+                    }
+                    
+                    // Tampilkan hanya jika user adalah super_admin atau validator
+                    // DAN status adalah rejected
+                    return !($user->hasRole(['super_admin', 'validator']) && $get('status') === 'rejected');
+                }),
             Forms\Components\Toggle::make('is_featured')
                 ->onIcon('heroicon-s-check')
                 ->offIcon('heroicon-s-x-mark')
@@ -110,18 +98,16 @@ class PostResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
-        
-        ->modifyQueryUsing(function (Builder $query) {
-            if (!Auth::user()->hasRole('author')) {
-                return $query;
-            }
+            ->modifyQueryUsing(function (Builder $query) {
+                if (!Auth::user()->hasRole('author')) {
+                    return $query;
+                }
 
-            return $query->where('author_id', Auth::id()); // Author hanya melihat postingannya sendiri
-        })
+                return $query->where('author_id', Auth::id()); // Author hanya melihat postingannya sendiri
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->limit(20)
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('views')
@@ -129,10 +115,8 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->sortable()
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('author.name')
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->searchable()
                     ->sortable()
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('status')
@@ -154,48 +138,29 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->default('draft'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->since()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->since()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->since()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('feedback')
                     ->tooltip(fn ($record) => $record->feedback)
-                    ->words(5)
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->words(5),
                 Tables\Columns\IconColumn::make('is_featured')
                     ->boolean()
                     ->alignCenter(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('created_from'),
-                        DatePicker::make('created_until'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            );
-                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ])
-            ]);    
+                // BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ])
+            ]);
     }
 
     public static function getRelations(): array
@@ -210,6 +175,7 @@ class PostResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
+            'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }
 
@@ -224,5 +190,4 @@ class PostResource extends Resource implements HasShieldPermissions
             'delete_any',
         ];
     }
-
 }
