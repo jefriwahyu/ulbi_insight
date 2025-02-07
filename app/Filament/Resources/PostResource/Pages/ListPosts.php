@@ -26,13 +26,15 @@ class ListPosts extends ListRecords
         return [
             'all' => Tab::make(),
             'draft' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'draft')),
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', 'draft')),
+            'submitted' => Tab::make()
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', 'submitted')),
             'revision' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'revision')),
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', 'revision')),
             'published' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'published')),
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', 'published')),
             'rejected' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'rejected')),
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', 'rejected')),
         ];
     }
 }

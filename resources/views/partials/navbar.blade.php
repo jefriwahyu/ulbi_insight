@@ -1,4 +1,3 @@
-
 <nav id="Navbar" class="max-w-[1130px] mx-auto flex items-center mt-[30px]">
     <!-- Search Form -->
     <form action="{{ route('search') }}" method="GET" class="flex-1 flex items-center">
