@@ -29,7 +29,7 @@ class Post extends Model
     protected static function boot()
     {
         parent::boot();
-        
+
         static::deleting(function ($post) {
             // Menghapus gambar yang ada di thumbnail
             if ($post->thumbnail && Storage::disk('public')->exists($post->thumbnail)) {
@@ -65,5 +65,10 @@ class Post extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

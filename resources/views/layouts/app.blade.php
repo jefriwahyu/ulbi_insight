@@ -14,6 +14,7 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
 		@vite('resources/css/app.css')
+		@livewireStyles
 	</head>
 
 	<body class="font-[Poppins]">
@@ -23,6 +24,7 @@
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 		<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 		<script src="{{ asset('portal-berita/src/js/carousel.js') }}"></script>
+		@livewireScripts
 	</body>
 	{{-- <footer>
 		@yield('footer')

@@ -7,6 +7,7 @@ use App\Http\Controllers\FilterAuthorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\AllPostsController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,3 +29,7 @@ Route::get('/search', [SearchController::class, 'searchPost'])
 
 Route::get('/allposts', [AllPostsController::class, 'allPosts'])
     ->name('allposts');
+
+Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
+    ->name('comments.store');
+    

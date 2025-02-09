@@ -3,7 +3,7 @@
 	@section('title', '' . $post->title)
 
 	@section('content')
-	
+
 	@include('partials.navbar')
 	<header class="flex flex-col items-center gap-[50px] mt-[70px]">
 		<div id="Headline" class="max-w-[1130px] mx-auto flex flex-col gap-4 items-center">
@@ -107,6 +107,7 @@
 			</p>
 		</div>
 	</section>
+	@livewire('comments', ['postId' => $post->id])
 		<section id="Up-to-date" class="w-full flex justify-center mt-[70px] py-[50px] bg-[#F9F9FC] mb-0">
 			<div class="max-w-[1130px] mx-auto flex flex-col gap-[30px]">
 				<div class="flex justify-between items-center">
@@ -137,6 +138,7 @@
 				</div>
 			</div>
 		</section>
+
 @endsection
 
 		@push('scripts')

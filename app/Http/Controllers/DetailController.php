@@ -8,8 +8,9 @@ use App\Models\Post;
 
 class DetailController extends Controller
 {
-    public function detailPost(Request $request) {
-        
+    public function detailPost(Request $request)
+    {
+
         $allPosts = Post::where('status', 'published')
             ->whereHas('category', function ($query) {
                 $query->where('status', 'active');
@@ -22,21 +23,21 @@ class DetailController extends Controller
             ->where('slug', $request->slug)
             ->first();
 
-        $post->increment('views');  
+        $post->increment('views');
 
         $authorPost = Post::where('author_id', $post->author_id)
             ->where('status', 'published')
-                ->whereHas('category', function ($query) {
-                    $query->where('status', 'active');
-                })
+            ->whereHas('category', function ($query) {
+                $query->where('status', 'active');
+            })
             ->inRandomOrder()
             ->take(5)
             ->get();
-                        
+
         // Ambil semua kategori yang statusnya active
         $categories = Category::where('status', 'active')
             ->get();
 
-        return view('details', compact('post','categories', 'authorPost', 'allPosts'));
+        return view('details', compact('post', 'categories', 'authorPost', 'allPosts'));
     }
 }
