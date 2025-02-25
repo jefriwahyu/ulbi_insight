@@ -50,9 +50,7 @@
 			<span id="copyText">Copy Link</span>
 		</button>
 	</div>
-			
 		</article>
-
 		<div class="side-bar flex flex-col w-[300px] shrink-0 gap-10">
 			<div class="ads flex flex-col gap-3 w-full">
 				<a href="">
@@ -65,18 +63,18 @@
 			</div>
 			<div id="More-from-author" class="flex flex-col gap-4">
 				<p class="font-bold">More From Author</p>
-				@foreach ($authorPost as $post)
-				<a href="{{ url('/post/' . $post->slug) }}" class="card-from-author">
+				@foreach ($authorPost as $post1)
+				<a href="{{ url('/post/' . $post1->slug) }}" class="card-from-author">
 					<div
 						class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[14px] flex gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 						<div class="w-[70px] h-[70px] flex shrink-0 overflow-hidden rounded-2xl">
-							<img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full"
+							<img src="{{ asset('storage/' . $post1->thumbnail) }}" class="object-cover w-full h-full"
 								alt="thumbnail">
 						</div>
 						<div class="flex flex-col gap-[6px]">
-							<p class="line-clamp-2 font-bold">{{ $post->title }}</p>
+							<p class="line-clamp-2 font-bold">{{ $post1->title }}</p>
 							<p class="text-sm leading-[20px] text-[#A3A6AE]">
-								{{ Str::limit($post->created_at->diffForHumans() . ' • ' . $post->category->name, 24, '...') }}
+								{{ Str::limit($post1->created_at->diffForHumans() . ' • ' . $post1->category->name, 24, '...') }}
 							</p>
 						</div>
 					</div>
@@ -107,7 +105,7 @@
 			</p>
 		</div>
 	</section>
-	@livewire('comments', ['postId' => $post->id])
+	@livewire('comments', ['postId' => $post->id])	
 		<section id="Up-to-date" class="w-full flex justify-center mt-[70px] py-[50px] bg-[#F9F9FC] mb-0">
 			<div class="max-w-[1130px] mx-auto flex flex-col gap-[30px]">
 				<div class="flex justify-between items-center">

@@ -181,12 +181,18 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->hidden(function ($record) {
                         $user = Auth::user();
 
-                        // Hide submit button for super_admin and validator
-                        if (!$user->hasRole(['author'])) {
-                            return false;
+                        // Hide if user is not an author
+                        if (!$user->hasRole('author')) {
+                            return true;
                         }
 
-                        return true;
+                        // Hide if status is not draft
+                        if ($record->status !== 'draft') {
+                            return true;
+                        }
+
+                        // Show only for authors with draft status
+                        return false;
                     }),
 
             ])
