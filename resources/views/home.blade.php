@@ -5,19 +5,19 @@
 @section('content')
 
     @include('partials.navbar')
-    <section id="Featured" class="mt-[30px]">
+    <section id="Featured" class="sm:max-2xl:mt-[30px] mt-[0px]">
         <div class="main-carousel w-full">
             @foreach ($featuredPosts as $post)
-                <div class="featured-news-card relative w-full h-[300px] sm:max-2xl:h-[550px] flex shrink-0 overflow-hidden">
+                <div class="featured-news-card relative w-full h-[250px] sm:max-2xl:h-[550px] flex shrink-0 overflow-hidden">
                     <img src="{{ asset('storage/' . $post->thumbnail) }}"
                         class="thumbnail absolute w-full h-full object-cover" alt="{{ $post->title }}" />
                     <div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10">
                     </div>
                     <div
-                        class="card-detail max-w-[1130px] mx-[30px] w-full sm:max-xl:mx-[50px] xl:mx-auto flex items-end justify-between pb-10 relative z-20 ">
+                        class="card-detail max-w-[1130px] mx-[10px] w-full sm:max-xl:mx-[50px] xl:mx-auto flex items-end justify-between sm:max-2xl:pb-10 pb-3 relative z-20 ">
                         <div class="flex flex-col gap-[10px]">
                             <p
-                                class="inline-block rounded-full px-2 py-1 bg-[#FF6B18] text-white w-20 font-bold text-[13px] leading-tight">
+                                class="inline-block rounded-full px-2 py-1 bg-[#FF6B18] text-white sm:max-2xl:w-20 w-[65px] font-bold sm:max-2xl:text-[13px] text-[10px] leading-tight">
                                 Featured</p>
                             <a href="{{ url('/post/' . $post->slug) }}" style="text-decoration: none;"
                                 class="leading-relaxed line-clamp-2 font-bold text-[16px] lg:max-2xl:text-4xl sm:text-xl md:max-lg:text-2xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">
@@ -112,15 +112,15 @@
     </section>
 
     <section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px]">
-        <div class="flex flex-col gap-3 shrink-0 w-fit">
+        <div class="flex flex-col gap-1 shrink-0 w-fit">
             <a href="#">
-                <div class="w-[500px] h-[120px] flex shrink-0 border border-[#EEF0F7] rounded-2xl overflow-hidden">
+                <div class="sm:max-lg:w-[600px] sm:max-lg:h-[70px] lg:w-full lg:h-full h-[40px] w-[300px] flex shrink-0 border border-[#EEF0F7] sm:max-2xl:rounded-2xl rounded-xl overflow-hidden">
                     <img src="{{ asset('portal-berita/src/assets/images/iklans/bannerWide1.png') }}"
                         class="object-cover w-full h-full" alt="ads" />
                 </div>
             </a>
-            <p class="font-medium text-sm leading-[21px] text-[#A3A6AE] flex gap-1">
-                Our Advertisement <a href="#" class="w-[18px] h-[18px]"><img
+            <p class="font-medium sm:max-2xl:text-sm text-[7px] sm:max-2xl:leading-[21px] text-[#A3A6AE] flex gap-1">
+                Our Advertisement <a href="#" class="sm:max-2xl:w-[18px] sm:max-2xl:h-[18px] w-[11px] h-[11px]"><img
                         src="{{ asset('portal-berita/src/assets/images/icons/message-question.svg') }}"
                         alt="icon" /></a>
             </p>
