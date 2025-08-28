@@ -17,7 +17,7 @@
                         class="card-detail max-w-[1130px] mx-[10px] w-full sm:max-xl:mx-[50px] xl:mx-auto flex items-end justify-between sm:max-2xl:pb-10 pb-3 relative z-20 ">
                         <div class="flex flex-col gap-[10px]">
                             <p
-                                class="inline-block rounded-full px-2 py-1 bg-[#FF6B18] text-white sm:max-2xl:w-20 w-[65px] font-bold sm:max-2xl:text-[13px] text-[10px] leading-tight">
+                                class="inline-block rounded-full px-2 py-1 bg-[#FF6B18] text-white w-fit font-bold sm:max-2xl:text-[13px] text-[10px] leading-tight">
                                 Featured</p>
                             <a href="{{ url('/post/' . $post->slug) }}" style="text-decoration: none;"
                                 class="leading-relaxed line-clamp-2 font-bold text-[16px] lg:max-2xl:text-4xl sm:text-xl md:max-lg:text-2xl text-white two-lines hover:underline transition-all duration-300">
@@ -127,34 +127,34 @@
         </div>
     </section>
 
-    <section id="Latest-entertainment" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] my-[70px]">
+    <section id="Latest-entertainment" class="max-w-[1130px] mx-[10px] sm:max-xl:mx-[50px] xl:mx-auto flex flex-col gap-[30px] my-[70px]">
         <div class="flex justify-between items-center">
-            <h2 class="font-bold text-[26px] leading-[39px]">
+            <h2 class="font-bold sm:max-2xl:text-[26px] text-[22px] leading-relaxed">
                 Most Views Post <br />
                 You can Explore
             </h2>
             <a href="{{ url('/allposts') }}"
-                class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
+                class="rounded-full sm:max-2xl:p-[12px_22px] p-[5px_11px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
                 Explore All
             </a>
         </div>
 
-        <div class="flex justify-between items-center h-fit">
+        <div class="sm:max-2xl:flex sm:max-2xl:mx-[0px] mx-[10px] justify-between items-center h-fit">
             <!-- Most Views Post -->
             @if ($mostViewPost)
-                <div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
+                <div class="featured-news-card relative w-full sm:max-2xl:h-[424px] h-[250px] flex flex-1 rounded-[20px] overflow-hidden">
                     <img src="{{ asset('storage/' . $mostViewPost->thumbnail) }}"
                         class="thumbnail absolute w-full h-full object-cover" alt="{{ $mostViewPost->title }}" />
                     <div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10">
                     </div>
-                    <div class="card-detail w-full flex items-end p-[30px] relative z-20">
+                    <div class="card-detail w-full flex items-end sm:max-2xl:p-[30px] p-[20px] relative z-20">
                         <div class="flex flex-col gap-[10px]">
                             <p
-                                class="inline-flex w-20 rounded-full px-2 py-1 bg-[#FF6B18] text-white font-bold text-[10px] leading-tight whitespace-nowrap overflow-hidden">
+                                class="inline-flex w-fit rounded-full px-2 py-1 bg-[#FF6B18] text-white font-bold text-[10px] leading-tight whitespace-nowrap overflow-hidden">
                                 Most Viewed
                             </p>
                             <a href="{{ url('/post/' . $mostViewPost->slug) }}" style="text-decoration: none;"
-                                class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300 line-clamp-2">
+                                class="font-bold sm:max-2xl:text-[30px] text-[16px] leading-relaxed text-white hover:underline transition-all duration-300 line-clamp-2">
                                 {{ $mostViewPost->title }}
                             </a>
                             <!-- Container untuk waktu publikasi dan views -->
@@ -180,7 +180,7 @@
 
             <!-- Post News -->
             <div class="h-[424px] w-fit px-5 overflow-y-scroll overflow-x-hidden relative custom-scrollbar">
-                <div class="w-[455px] flex flex-col gap-5 shrink-0">
+                <div class="sm:max-2xl:w-[455px] w-fit flex flex-col gap-5 shrink-0">
                     @foreach ($viewPost as $post)
                         <a href="{{ url('/post/' . $post->slug) }}" class="card py-[2px]">
                             <div
@@ -189,14 +189,14 @@
                                     <img src="{{ asset('storage/' . $post->thumbnail) }}"
                                         class="object-cover w-full h-full" alt="{{ $post->title }}" />
                                 </div>
-                                <div class="flex flex-col justify-center gap-[6px]">
-                                    <h3 class="font-bold text-lg leading-[27px] line-clamp-2">{{ $post->title }}</h3>
-                                    <div class="flex items-center justify-between text-sm leading-[21px] text-[#A3A6AE]">
+                                <div class="flex flex-col justify-center gap-[2px]">
+                                    <h3 class="font-bold sm:max-2xl:text-lg text-sm leading-relaxed line-clamp-2">{{ $post->title }}</h3>
+                                    <div class="sm:max-2xl:flex items-center justify-between sm:max-2xl:text-sm text-[12px] leading-[21px] text-[#A3A6AE]">
                                         <p>{{ $post->created_at->diffForHumans() }}</p>
-                                        <div class="flex items-center gap-[5px] absolute right-9">
+                                        <div class="flex items-center gap-[5px] sm:max-2xl:absolute sm:max-2xl:right-9">
                                             <img src="{{ asset('portal-berita/src/assets/images/icons/g-eye.png') }}"
-                                                alt="Views Icon" class="w-[16px] h-[16px]" />
-                                            <span>
+                                                alt="Views Icon" class="sm:max-2xl:w-[16px] sm:max-2xl:h-[16px] w-[11px] h-[11px]" />
+                                            <span class="sm:max-2xl:text-sm text-[11px] font-medium">
                                                 @if ($post->views >= 1000000)
                                                     {{ number_format($post->views / 1000000, 1) }}M views
                                                 @elseif ($post->views >= 1000)
