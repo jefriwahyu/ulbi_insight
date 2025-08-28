@@ -9,12 +9,12 @@
             Good News Today
         </h1>
     </section>
-    <section id="search-result" class="max-w-[1130px] sm:max-2xl:mx-auto mx-[20px] flex items-start flex-col gap-[30px] sm:max-2xl:mt-[70px] mt-[50px] sm:max-2xl:mb-[100px] mb-[50px]">
+    <section id="search-result" class="max-w-[1130px] mx-[20px] sm:max-xl:mx-[50px] xl:mx-auto flex items-start flex-col gap-[30px] sm:max-2xl:mt-[70px] mt-[50px] sm:max-2xl:mb-[100px] mb-[50px]">
 		<h2 class="sm:max-2xl:text-[26px] text-[19px] leading-relaxed font-bold flex items-center gap-3">
 			Search Result: <span class="badge-orange rounded-full sm:max-2xl:p-[8px_18px] p-[5px_13px] bg-[#FFECE1] font-bold sm:max-2xl:text-sm text-[12px] leading-relaxed text-[#FF6B18] w-fit inline-flex items-center">{{ $query }}</span>
 		</h2>
         @if($searchPost->count() > 0)
-        <div id="search-cards" class="grid sm:max-2xl:grid-cols-3 gap-[30px]">
+        <div id="search-cards" class="grid sm:max-xl:grid-cols-2 xl:grid-cols-3 gap-[30px]">
             @foreach($searchPost as $post)
             <a href="{{ url('/post/' . $post->slug) }}" class="card">
                 <div class="flex flex-col gap-4 p-[26px_20px] transition-all duration-300 ring-1 ring-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18] rounded-[20px] overflow-hidden bg-white">
