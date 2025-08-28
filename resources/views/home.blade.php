@@ -20,7 +20,7 @@
                                 class="inline-block rounded-full px-2 py-1 bg-[#FF6B18] text-white sm:max-2xl:w-20 w-[65px] font-bold sm:max-2xl:text-[13px] text-[10px] leading-tight">
                                 Featured</p>
                             <a href="{{ url('/post/' . $post->slug) }}" style="text-decoration: none;"
-                                class="leading-relaxed line-clamp-2 font-bold text-[16px] lg:max-2xl:text-4xl sm:text-xl md:max-lg:text-2xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">
+                                class="leading-relaxed line-clamp-2 font-bold text-[16px] lg:max-2xl:text-4xl sm:text-xl md:max-lg:text-2xl text-white two-lines hover:underline transition-all duration-300">
                                 {{ $post->title }}
                             </a>
                             <p class="text-white text-sm sm:max-2xl:text-md">{{ $post->created_at->diffForHumans() }} •
@@ -42,27 +42,27 @@
         </div>
     </section>
 
-    <section id="Up-to-date" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] mt-[70px]">
+    <section id="Up-to-date" class="max-w-[1130px] mx-[10px] sm:max-xl:mx-[50px] xl:mx-auto flex flex-col gap-[30px] sm:max-2xl:mt-[70px] mt-[40px]">
         <div class="flex justify-between items-center">
             <h2
-                class="text-[26px] leading-[39px] font-bold bg-gradient-to-r from-[#ff8a00] to-[#fc6e6e] bg-clip-text text-transparent">
+                class="sm:max-2xl:text-[26px] text-[17px] leading-relaxed font-bold bg-gradient-to-r from-[#ff8a00] to-[#fc6e6e] bg-clip-text text-transparent">
                 Latest Hot News <br />
                 Good for Curiousity
             </h2>
             <p
-                class="badge-orange rounded-full p-[8px_18px] bg-[#FFECE1] font-bold text-sm leading-[21px] text-[#FF6B18] w-fit">
+                class="badge-orange rounded-full sm:max-2xl:p-[8px_18px] p-[5px_15px] bg-[#FFECE1] font-bold sm:max-2xl:text-sm text-[10px] leading-relaxed text-[#FF6B18] w-fit">
                 UP TO DATE</p>
         </div>
-        <div class="grid grid-cols-3 gap-[30px]">
+        <div class="grid sm:max-2xl:grid-cols-3 grid-cols-1 gap-[30px] mx-[13px] sm:max-2xl:mx-[0px]">
             @foreach ($latestPost as $post)
-                <a href="{{ url('/post/' . $post->slug) }}" class="card-news">
+                <a href="{{ url('/post/' . $post->slug) }}">
                     <div
                         class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
                         <div
                             class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
                             <!-- Badge kategori -->
                             <p
-                                class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
+                                class="badge-white absolute top-5 left-5 rounded-full sm:max-2xl:p-[8px_18px] p-[5px_13px] bg-white font-bold sm:max-2xl:text-xs text-[12px] leading-[18px]">
                                 {{ strtoupper($post->category->name) }}
                             </p>
                             <img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full"
@@ -85,16 +85,16 @@
     <section id="Best-authors" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] mt-[70px]">
         <div class="flex flex-col text-center gap-[14px] items-center">
             <p
-                class="badge-orange rounded-full p-[8px_18px] bg-[#FFECE1] font-bold text-sm leading-[21px] text-[#FF6B18] w-fit">
+                class="badge-orange rounded-full sm:max-2xl:p-[8px_18px] p-[5px_13px] bg-[#FFECE1] font-bold sm:max-2xl:text-sm text-[12px] leading-[21px] text-[#FF6B18] w-fit">
                 BEST AUTHORS</p>
-            <h2 class="font-bold text-[26px] leading-[39px]">
+            <h2 class="font-bold sm:max-2xl:text-[26px] text-[22px] leading-relaxed">
                 Explore All Masterpieces <br />
                 Written by People
             </h2>
         </div>
         <div class="flex flex-wrap justify-center gap-[30px]">
             @foreach ($bestAuthors as $author)
-                <a href="{{ url('/author/' . $author->name) }}" class="card-authors w-full sm:w-auto">
+                <a href="{{ url('/author/' . $author->name) }}" class="card-authors w-fit sm:max-2xl:w-fit">
                     <div
                         class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
                         <div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">

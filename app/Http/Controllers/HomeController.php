@@ -52,8 +52,9 @@ class HomeController extends Controller
         //Ambil penulis terbaik
         $bestAuthors = User::role('author')
             ->withCount('posts')
+            ->having('posts_count', '>', 0)
             ->orderBy('posts_count', 'desc') // Urutkan berdasarkan jumlah posting
-            ->take(3) // Batasi ke 6 pengguna terbaik
+            ->take(3) // Batasi ke 3 pengguna terbaik
             ->get();
             // dd($bestAuthors);
 
