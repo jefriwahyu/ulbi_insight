@@ -37,26 +37,28 @@ class HomeController extends Controller
             ->whereHas('category', function ($query) {
                 $query->where('status', 'active');
             })
-            ->orderBy('views', 'desc')->first(); 
+            ->orderBy('views', 'desc')->first();
 
         // Ambil berita dengan views tertinggi kedua dan seterusnya
         $viewPost = Post::where('status', 'published')
             ->whereHas('category', function ($query) {
                 $query->where('status', 'active');
             })
-            ->orderBy('views', 'desc')  
+            ->orderBy('views', 'desc')
             ->skip(1)
-            ->take(10)  
-            ->get(); 
+            ->take(10)
+            ->get();
 
         //Ambil penulis terbaik
         $bestAuthors = User::role('author')
-            ->withCount('posts')
-            ->having('posts_count', '>', 0)
-            ->orderBy('posts_count', 'desc') // Urutkan berdasarkan jumlah posting
-            ->take(3) // Batasi ke 3 pengguna terbaik
+            ->withCount(['posts as published_posts_count' => function ($query) {
+                $query->where('status', 'published');
+            }])
+            ->having('published_posts_count', '>', 0)
+            ->orderBy('published_posts_count', 'desc')
+            ->take(3)
             ->get();
-            // dd($bestAuthors);
+        // dd($bestAuthors);
 
         return view('home', compact(
             'categories',

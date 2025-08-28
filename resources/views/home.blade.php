@@ -103,7 +103,7 @@
                         </div>
                         <div class="flex flex-col gap-1 text-center">
                             <p class="font-semibold">{{ $author->name }}</p>
-                            <p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $author->posts_count }} News</p>
+                            <p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $author->published_posts_count }} News</p>
                         </div>
                     </div>
                 </a>
