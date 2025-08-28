@@ -1,63 +1,68 @@
-
 @extends('layouts.app')
 
-	@section('title', $category->name)
+@section('title', $category->name)
 
-	@section('content')
-		@include('partials.navbar')
-		<section id="Category-result" class="max-w-[1130px] mx-auto flex items-center flex-col gap-[30px] mt-[70px]">
-			<h1 class="text-4xl leading-[45px] font-bold text-center">
-				Explore Our <br/>
-				{{$category->name}} News
-			</h1>
-			@if($postsByCategory->count() > 0) 
-			<div id="search-cards" class="grid grid-cols-3 gap-[30px]">
-				@foreach ($postsByCategory as $post)
-				<a href="{{ url('/post/' . $post->slug) }}" class="card">
-					<div
-						class="flex flex-col gap-4 p-[26px_20px] transition-all duration-300 ring-1 ring-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18] rounded-[20px] overflow-hidden bg-white">
-						<div class="thumbnail-container h-[200px] relative rounded-[20px] overflow-hidden">
-							<div
-								class="badge absolute left-5 top-5 bottom-auto right-auto flex p-[8px_18px] bg-white rounded-[50px]">
-								<p class="text-xs leading-[18px] font-bold">{{ strtoupper($post->category->name) }}</p>
-							</div>
-							<img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}"
-								class="w-full h-full object-cover" />
-						</div>
-						<div class="flex flex-col gap-[6px]">
-							<h3 class="text-lg leading-[27px] font-bold line-clamp-2">{{ $post->title }}</h3>
-							<p class="text-sm leading-[20px] text-[#A3A6AE]">
-								{{ $post->created_at->diffForHumans() }}
-							</p>
-						</div>
-					</div>
-				</a>
-				@endforeach
-			</div>
-			<div class="w-full flex justify-center mt-8">
-				{{ $postsByCategory->withQueryString()->links() }}
-			</div>
+@section('content')
+    @include('partials.navbar')
+    <section id="Category-result"
+        class="max-w-[1130px] sm:max-2xl:mx-auto mx-[20px] flex items-center flex-col gap-[30px] sm:max-2xl:mt-[70px] mt-[30px]">
+        <h1 class="sm:max-2xl:text-4xl text-2xl leading-relaxed font-bold text-center">
+            Explore Our <br />
+            {{ $category->name }} News
+        </h1>
+    </section>
+    <section
+        class="max-w-[1130px] mx-[20px] sm:max-xl:mx-[50px] xl:mx-auto flex items-start flex-col gap-[30px] sm:max-2xl:mt-[70px] mt-[50px]">
+        @if ($postsByCategory->count() > 0)
+            <div class="grid sm:max-xl:grid-cols-2 xl:grid-cols-3 gap-[30px]">
+                @foreach ($postsByCategory as $post)
+                    <a href="{{ url('/post/' . $post->slug) }}" class="card">
+                        <div
+                            class="flex flex-col gap-4 p-[26px_20px] transition-all duration-300 ring-1 ring-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18] rounded-[20px] overflow-hidden bg-white">
+                            <div class="thumbnail-container h-[200px] relative rounded-[20px] overflow-hidden">
+                                <div
+                                    class="badge absolute left-5 top-5 bottom-auto right-auto flex sm:max-2xl:p-[8px_18px] p-[5px_13px] bg-white rounded-full sm:max-2xl:text-sm text-[11px]">
+                                    <p class="text-xs leading-[18px] font-bold">{{ strtoupper($post->category->name) }}</p>
+                                </div>
+                                <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex flex-col gap-[6px]">
+                                <h3 class="text-lg leading-[27px] font-bold line-clamp-2">{{ $post->title }}</h3>
+                                <p class="text-sm leading-[20px] text-[#A3A6AE]">
+                                    {{ $post->created_at->diffForHumans() }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+            <div class="w-full flex justify-center mt-8">
+                {{ $postsByCategory->withQueryString()->links() }}
+            </div>
+        @else
+            <div class="flex items-center justify-center w-full min-h-[200px]">
+                <h2 class="text-center font-bold text-lg text-gray-600">
+                    There are no posts with "{{ $categoryName }}" categories yet..
+                </h2>
+            </div>
+        @endif
+    </section>
 
-			@else
-			<div class="flex items-center justify-center w-full min-h-[200px]">
-				<h2 class="text-center font-bold text-lg text-gray-600">
-					There are no posts with "{{ $categoryName }}" categories yet.. 
-				</h2>
-			</div>
-			@endif
-		</section>
-
-		<section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px] pb-[70px]">
-			<div class="flex flex-col gap-3 shrink-0 w-fit">
-				<a href="#">
-					<div class="w-[900px] h-[120px] flex shrink-0 border border-[#EEF0F7] rounded-2xl overflow-hidden">
-						<img src="{{ asset('portal-berita/src/assets/images/iklans/bannerWide1.png') }}" class="object-cover w-full h-full" alt="ads" />
-					</div>
-				</a>
-				<p class="font-medium text-sm leading-[21px] text-[#A3A6AE] flex gap-1">
-					Our Advertisement <a href="#" class="w-[18px] h-[18px]">
-					<img src="{{ asset('portal-berita/src/assets/images/icons/message-question.svg') }}" alt="icon" /></a>
-				</p>
-			</div>
-		</section>
-	@endsection
+    <section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center sm:max-2xl:mt-[70px] mt-[30px] sm:max-2xl:mb-[100px] mb-[50px]">
+        <div class="flex flex-col gap-1 shrink-0 w-fit">
+            <a href="#">
+                <div
+                    class="sm:max-lg:w-[600px] sm:max-lg:h-[70px] lg:w-full lg:h-full h-[40px] w-[300px] flex shrink-0 border border-[#EEF0F7] sm:max-2xl:rounded-2xl rounded-xl overflow-hidden">
+                    <img src="{{ asset('portal-berita/src/assets/images/iklans/bannerWide1.png') }}"
+                        class="object-cover w-full h-full" alt="ads" />
+                </div>
+            </a>
+            <p class="font-medium sm:max-2xl:text-sm text-[7px] sm:max-2xl:leading-[21px] text-[#A3A6AE] flex gap-1">
+                Our Advertisement <a href="#" class="sm:max-2xl:w-[18px] sm:max-2xl:h-[18px] w-[11px] h-[11px]"><img
+                        src="{{ asset('portal-berita/src/assets/images/icons/message-question.svg') }}"
+                        alt="icon" /></a>
+            </p>
+        </div>
+    </section>
+@endsection

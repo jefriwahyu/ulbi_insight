@@ -3,7 +3,7 @@
 @section('title', 'All Post')
 @section('content')
     @include('partials.navbar')
-    <section id="heading" class="max-w-[1130px] sm:max-2xl:mx-auto mx-[20px] flex items-center flex-col gap-[30px] sm:max-2xl:mt-[70px] mt-[50px]">
+    <section id="heading" class="max-w-[1130px] sm:max-2xl:mx-auto mx-[20px] flex items-center flex-col gap-[30px] sm:max-2xl:mt-[70px] mt-[30px]">
         <h1 class="sm:max-2xl:text-4xl text-2xl leading-relaxed font-bold text-center">
             All Posts By Latest<br/>
             Good News Today
