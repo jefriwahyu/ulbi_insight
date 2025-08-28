@@ -62,7 +62,7 @@
                             class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
                             <!-- Badge kategori -->
                             <p
-                                class="badge-white absolute top-5 left-5 rounded-full sm:max-2xl:p-[8px_18px] p-[5px_13px] bg-white font-bold sm:max-2xl:text-xs text-[12px] leading-[18px]">
+                                class="badge-white absolute top-5 left-5 rounded-full sm:max-2xl:p-[8px_18px] p-[5px_13px] bg-white font-bold sm:max-2xl:text-xs text-[11px] leading-[18px]">
                                 {{ strtoupper($post->category->name) }}
                             </p>
                             <img src="{{ asset('storage/' . $post->thumbnail) }}" class="object-cover w-full h-full"
