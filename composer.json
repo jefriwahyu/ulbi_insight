@@ -9,6 +9,7 @@
         "bezhansalleh/filament-shield": "^3.3",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.9",
+        "laravel/octane": "^2.12",
         "laravel/tinker": "^2.9",
         "spatie/laravel-permission": "^6.10"
     },

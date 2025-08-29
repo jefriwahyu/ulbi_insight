@@ -84,7 +84,7 @@
         <div class="flex flex-col gap-1 shrink-0 w-fit">
             <a href="#">
                 <div
-                    class="sm:max-lg:w-[600px] sm:max-lg:h-[70px] lg:w-full lg:h-full h-[40px] w-[300px] flex shrink-0 border border-[#EEF0F7] sm:max-2xl:rounded-2xl rounded-xl overflow-hidden">
+                    class="sm:max-lg:w-[600px] sm:max-lg:h-[70px] lg:w-full lg:h-full h-[50px] w-[350px] flex shrink-0 border border-[#EEF0F7] sm:max-2xl:rounded-2xl rounded-xl overflow-hidden">
                     <img src="{{ asset('portal-berita/src/assets/images/iklans/bannerWide.png') }}"
                         class="object-cover w-full h-full" alt="ads" />
                 </div>

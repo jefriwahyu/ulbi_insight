@@ -23,6 +23,8 @@ class DetailController extends Controller
             ->where('slug', $request->slug)
             ->first();
 
+        $authorRole = Post::with(['author.roles'])->where('slug', $request->slug)->first();
+
         $post->increment('views');
 
         $authorPost = Post::where('author_id', $post->author_id)
@@ -38,6 +40,6 @@ class DetailController extends Controller
         $categories = Category::where('status', 'active')
             ->get();
 
-        return view('details', compact('post', 'categories', 'authorPost', 'allPosts'));
+        return view('details', compact('post', 'categories', 'authorPost', 'authorRole', 'allPosts'));
     }
 }

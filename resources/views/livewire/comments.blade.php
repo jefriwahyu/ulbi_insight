@@ -1,4 +1,4 @@
-<div class="max-w-[1130px] mx-auto mt-[50px]">
+<div class="max-w-[1130px] sm:max-lg:mx-[40px] lg:mx-auto mx-[30px] mt-[50px] ">
     <h3 class="font-bold text-lg">Komentar</h3>
 
     @if (session()->has('success'))

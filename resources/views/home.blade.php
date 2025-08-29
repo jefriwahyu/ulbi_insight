@@ -114,7 +114,7 @@
     <section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px]">
         <div class="flex flex-col gap-1 shrink-0 w-fit">
             <a href="#">
-                <div class="sm:max-lg:w-[600px] sm:max-lg:h-[70px] lg:w-full lg:h-full h-[40px] w-[300px] flex shrink-0 border border-[#EEF0F7] sm:max-2xl:rounded-2xl rounded-xl overflow-hidden">
+                <div class="sm:max-xl:w-[600px] sm:max-xl:h-[70px] xl:w-full xl:h-full h-[50px] w-[350px] flex shrink-0 border border-[#EEF0F7] sm:max-2xl:rounded-2xl rounded-xl overflow-hidden">
                     <img src="{{ asset('portal-berita/src/assets/images/iklans/bannerWide1.png') }}"
                         class="object-cover w-full h-full" alt="ads" />
                 </div>
@@ -139,7 +139,7 @@
             </a>
         </div>
 
-        <div class="sm:max-2xl:flex sm:max-2xl:mx-[0px] mx-[10px] justify-between items-center h-fit">
+        <div class="lg:flex sm:max-2xl:mx-[0px] mx-[10px] justify-between place-items-center h-fit">
             <!-- Most Views Post -->
             @if ($mostViewPost)
                 <div class="featured-news-card relative w-full sm:max-2xl:h-[424px] h-[250px] flex flex-1 rounded-[20px] overflow-hidden">
