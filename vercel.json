@@ -9,7 +9,7 @@
     { "src": "/(.*)", "dest": "/public/index.php" }
   ],
   "public": true,
-  "buildCommand": "vite build",
+  "buildCommand": "npm run build",
   "outputDirectory": "public",
   "env": {
     "APP_ENV": "production",
@@ -32,4 +32,5 @@
     "DB_USERNAME": "if0_39822725",
     "DB_PASSWORD": "ulbiinsight99"
   }
+  
 }
