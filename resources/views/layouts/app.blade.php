@@ -13,7 +13,21 @@
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"rel="stylesheet" />
 		<!-- CSS -->
 		<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
-		@vite('resources/css/app.css')
+		
+		{{-- Vite Fallback --}}
+		@if (app()->environment('production'))
+			{{-- Cek apakah manifest.json ada --}}
+			@if (file_exists(public_path('build/manifest.json')))
+				@vite('resources/css/app.css')
+			@else
+				{{-- Fallback: skip vite jika manifest tidak ada --}}
+				<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+			@endif
+		@else
+			{{-- Development mode --}}
+			@vite('resources/css/app.css')
+		@endif
+		
 		@livewireStyles
 	</head>
 
