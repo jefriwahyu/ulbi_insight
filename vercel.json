@@ -14,7 +14,6 @@
     { "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|ico|svg))", "dest": "/public/$1" },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ],
-  "buildCommand": "npm ci && npm run build",
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false",
