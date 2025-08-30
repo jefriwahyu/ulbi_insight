@@ -17,15 +17,23 @@
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
     @php
         $isProduction = app()->environment('production');
-        $manifestPath = $isProduction ? '../public_html/build/manifest.json' : public_path('build/manifest.json');
+        // Sesuaikan path manifest sesuai struktur di Vercel
+        $manifestPath = $isProduction ? base_path('public/build/manifest.json') : public_path('build/manifest.json');
     @endphp
 
     @if ($isProduction && file_exists($manifestPath))
         @php
             $manifest = json_decode(file_get_contents($manifestPath), true);
         @endphp
-        <link rel="stylesheet" href="{{ config('app.url') }}/build/{{ $manifest['resources/css/app.css']['file'] }}">
-        <script type="module" src="{{ config('app.url') }}/build/{{ $manifest['resources/js/app.js']['file'] }}"></script>
+
+        {{-- load file js & css dari manifest --}}
+        @if (isset($manifest['resources/js/app.js']['file']))
+            <script type="module" src="{{ asset('build/' . $manifest['resources/js/app.js']['file']) }}"></script>
+        @endif
+
+        @if (isset($manifest['resources/css/app.css']['file']))
+            <link rel="stylesheet" href="{{ asset('build/' . $manifest['resources/css/app.css']['file']) }}">
+        @endif
     @else
         @viteReactRefresh
         @vite(['resources/js/app.js', 'resources/css/app.css'])
