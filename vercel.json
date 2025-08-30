@@ -29,10 +29,10 @@
     "LOG_CHANNEL": "stderr",
     "SESSION_DRIVER": "cookie",
     "DB_CONNECTION": "mysql",
-    "DB_HOST": "sql110.infinityfree.com",
-    "DB_PORT": "3306",
-    "DB_DATABASE": "if0_39822725_ulbiinsight",
-    "DB_USERNAME": "if0_39822725",
-    "DB_PASSWORD": "ulbiinsight99"
+    "DB_HOST": "oqkj0i.h.filess.io",
+    "DB_PORT": "3307",
+    "DB_DATABASE": "ulbiinsight_victorygo",
+    "DB_USERNAME": "ulbiinsight_victorygo",
+    "DB_PASSWORD": "4a3f32fa49c063e29db39e77ce4ae9d9aef1b00f"
   }
 }
