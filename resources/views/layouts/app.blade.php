@@ -1,58 +1,32 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>@yield('title')</title>
+		<link href="{{ asset('portal-berita/src/output.css')}}" rel="stylesheet" />
+		<link href="{{ asset('portal-berita/src/main.css')}}" rel="stylesheet" />
+		<link rel="icon" href="{{ asset('storage/logo/ui.png') }}" type="image/png">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"rel="stylesheet" />
+		<!-- CSS -->
+		<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
+		@vite('resources/css/app.css')
+		@livewireStyles
+	</head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title')</title>
-    <link href="{{ asset('portal-berita/src/output.css') }}" rel="stylesheet" />
-    <link href="{{ asset('portal-berita/src/main.css') }}" rel="stylesheet" />
-    <link rel="icon" href="{{ asset('storage/logo/ui.png') }}" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"rel="stylesheet" />
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
-    @php
-        $isProduction = app()->environment('production');
-        // Sesuaikan path manifest sesuai struktur di Vercel
-        $manifestPath = $isProduction ? base_path('public/build/manifest.json') : public_path('build/manifest.json');
-    @endphp
-
-    @if ($isProduction && file_exists($manifestPath))
-        @php
-            $manifest = json_decode(file_get_contents($manifestPath), true);
-        @endphp
-
-        {{-- load file js & css dari manifest --}}
-        @if (isset($manifest['resources/js/app.js']['file']))
-            <script type="module" src="{{ asset('build/' . $manifest['resources/js/app.js']['file']) }}"></script>
-        @endif
-
-        @if (isset($manifest['resources/css/app.css']['file']))
-            <link rel="stylesheet" href="{{ asset('build/' . $manifest['resources/css/app.css']['file']) }}">
-        @endif
-    @else
-        @viteReactRefresh
-        @vite(['resources/js/app.js', 'resources/css/app.css'])
-    @endif
-    @livewireStyles
-</head>
-
-<body class="font-[Poppins]">
-    @yield('content')
-    @stack('scripts')
-    <script src="{{ asset('src/js/two-lines-text.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-    <script src="{{ asset('portal-berita/src/js/carousel.js') }}"></script>
-    @livewireScripts
-</body>
-{{-- <footer>
+	<body class="font-[Poppins]">
+		@yield('content')
+		@stack('scripts')
+		<script src="{{ asset('src/js/two-lines-text.js') }}"></script>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+		<script src="{{ asset('portal-berita/src/js/carousel.js') }}"></script>
+		@livewireScripts
+	</body>
+	{{-- <footer>
 		@yield('footer')
 	</footer> --}}
-
 </html>
