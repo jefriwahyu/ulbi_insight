@@ -15,7 +15,6 @@
     { "src": "/(.*)", "dest": "/api/index.php" }
   ],
   "buildCommand": "npm ci && npm run build",
-  "installCommand": "composer install --no-dev --optimize-autoloader",
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false",
