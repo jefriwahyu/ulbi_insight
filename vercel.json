@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "framework": null,
-  "functions": {
-    "public/index.php": { "runtime": "vercel-php@0.6.0" }
-  },
+  "builds": [
+    {
+      "src": "public/index.php",
+      "use": "vercel-php@0.6.0"
+    }
+  ],
   "routes": [
     { "src": "/build/(.*)", "dest": "/public/build/$1" },
     { "src": "/(.*)", "dest": "/public/index.php" }
   ],
-  "public": true,
   "buildCommand": "npm run build",
-  "outputDirectory": "public",
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false",
@@ -32,5 +32,4 @@
     "DB_USERNAME": "if0_39822725",
     "DB_PASSWORD": "ulbiinsight99"
   }
-  
 }
